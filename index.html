@@ -3,21 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>An Evening For Hiya ✨</title>
+    <title>An Evening for Hiya</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Great+Vibes&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Montserrat:wght@200;300;400;500&family=Great+Vibes&display=swap');
-
+        /* =========================================
+           CSS VARIABLES & RESET
+           ========================================= */
         :root {
-            --bg-color: #050508;
-            --gold: #D4AF37;
-            --gold-light: #F9E596;
-            --gold-dark: #aa8a29;
-            --text-main: #fdfdfd;
-            --text-muted: rgba(255, 255, 255, 0.7);
-            --glass-bg: rgba(25, 25, 30, 0.4);
-            --glass-border: rgba(212, 175, 55, 0.2);
-            --glow-pink: rgba(255, 182, 193, 0.15);
-            --glow-purple: rgba(147, 112, 219, 0.15);
+            --bg-dark: #030508;
+            --midnight-navy: #0a0f1a;
+            --deep-charcoal: #121212;
+            --champagne-gold: #d4af37;
+            --gold-glow: rgba(212, 175, 55, 0.4);
+            --soft-white: #fcfcfc;
+            --subtle-rose: #e6c8c8;
+            --muted-violet: #2a2235;
             
             --font-serif: 'Cinzel', serif;
             --font-sans: 'Montserrat', sans-serif;
@@ -28,176 +30,179 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            cursor: none; /* Custom cursor */
+            -webkit-tap-highlight-color: transparent;
         }
 
-        html {
-            scroll-behavior: smooth;
-            background-color: var(--bg-color);
-        }
-
-        body {
+        body, html {
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-dark);
+            color: var(--soft-white);
             font-family: var(--font-sans);
-            color: var(--text-main);
-            background: var(--bg-color);
             overflow-x: hidden;
-            width: 100vw;
+            scroll-behavior: smooth;
         }
 
-        /* Custom Cursor */
-        .cursor-dot, .cursor-outline {
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--muted-violet);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--champagne-gold);
+        }
+
+        canvas {
             position: fixed;
-            top: 0; left: 0;
-            transform: translate(-50%, -50%);
-            border-radius: 50%;
-            z-index: 9999;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
             pointer-events: none;
         }
-        
-        .cursor-dot {
-            width: 8px;
-            height: 8px;
-            background-color: var(--gold-light);
-            box-shadow: 0 0 10px var(--gold);
-        }
 
-        .cursor-outline {
-            width: 40px;
-            height: 40px;
-            border: 1px solid var(--gold);
-            transition: width 0.2s, height 0.2s, background-color 0.2s;
-        }
+        /* =========================================
+           TYPOGRAPHY UTILITIES
+           ========================================= */
+        .serif { font-family: var(--font-serif); }
+        .script { font-family: var(--font-script); }
+        .sans { font-family: var(--font-sans); }
         
-        .cursor-outline.hover {
+        .text-gold { color: var(--champagne-gold); }
+        .text-rose { color: var(--subtle-rose); }
+        
+        .title-large { font-size: clamp(3rem, 8vw, 6rem); line-height: 1.1; }
+        .title-medium { font-size: clamp(2rem, 5vw, 4rem); }
+        .title-small { font-size: clamp(1.2rem, 3vw, 2rem); }
+        .body-text { font-size: clamp(0.9rem, 1.5vw, 1.1rem); font-weight: 300; line-height: 1.8; letter-spacing: 1px; }
+
+        .tracking-wide { letter-spacing: 0.2em; }
+        .tracking-widest { letter-spacing: 0.4em; }
+
+        /* =========================================
+           PRELOADER
+           ========================================= */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100dvh;
+            background: var(--bg-dark);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 1.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .ring {
             width: 60px;
             height: 60px;
-            background-color: rgba(212, 175, 55, 0.1);
-            border-color: var(--gold-light);
-        }
-
-        /* Typography */
-        h1, h2, h3, h4, h5 {
-            font-family: var(--font-serif);
-            font-weight: 400;
-        }
-
-        .text-gold {
-            background: linear-gradient(to right, var(--gold-light), var(--gold), #fff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
-        }
-
-        .script-font {
-            font-family: var(--font-script);
-            font-size: clamp(3rem, 8vw, 6rem);
-            color: var(--gold-light);
-            text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
-        }
-
-        /* Loading Screen */
-        #loading {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100vh;
-            background: var(--bg-color);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            transition: opacity 1.5s ease-in-out;
-        }
-
-        .loader-ring {
-            width: 80px; height: 80px;
-            border: 2px solid transparent;
-            border-top: 2px solid var(--gold);
-            border-right: 2px solid var(--gold-light);
+            border: 2px solid rgba(212, 175, 55, 0.1);
+            border-top-color: var(--champagne-gold);
             border-radius: 50%;
-            animation: spin 2s linear infinite;
-            margin-bottom: 30px;
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+            animation: spin 1.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            margin-bottom: 20px;
+        }
+        .preloader-text {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: rgba(255,255,255,0.5);
+            animation: pulse 2s infinite;
         }
 
-        .loading-text {
-            font-family: var(--font-serif);
-            letter-spacing: 4px;
-            font-size: 1.1rem;
-            color: var(--gold-light);
-            animation: pulseText 2s ease-in-out infinite;
-        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes pulse { 50% { opacity: 0.5; } }
 
-        /* Intro Screen */
-        #intro-screen {
+        /* =========================================
+           SCENE 1: INTRO SEQUENCE
+           ========================================= */
+        #intro-scene {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100vh;
-            background: radial-gradient(circle at center, #11111a 0%, #050508 100%);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100dvh;
+            background: radial-gradient(circle at center, var(--midnight-navy) 0%, var(--bg-dark) 100%);
+            z-index: 9000;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 900;
-            transition: transform 2s cubic-bezier(0.7, 0, 0.3, 1), opacity 2s ease;
-        }
-
-        .intro-title {
-            font-size: clamp(2rem, 5vw, 4rem);
-            letter-spacing: 8px;
             text-align: center;
+            transition: all 2s cubic-bezier(0.7, 0, 0.3, 1);
+        }
+        .intro-content {
+            position: relative;
+            z-index: 2;
+            width: 90%;
+            max-width: 800px;
+        }
+        .intro-step {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.95);
+            width: 100%;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1.5s ease, transform 2s ease;
+            filter: blur(5px);
+        }
+        .intro-step.active {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+            filter: blur(0);
+        }
+        .intro-step.fade-out {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(1.05);
+            filter: blur(5px);
+        }
+        
+        .glowing-name {
+            font-size: clamp(4rem, 12vw, 8rem);
+            color: var(--soft-white);
+            text-shadow: 0 0 40px var(--gold-glow);
             margin-bottom: 10px;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeUp 1.5s forwards 0.5s;
         }
-
-        .intro-subtitle {
-            font-size: clamp(1rem, 2vw, 1.5rem);
-            letter-spacing: 12px;
-            color: var(--gold);
-            margin-bottom: 30px;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeUp 1.5s forwards 1s;
-        }
-
-        .intro-location {
-            font-family: var(--font-sans);
-            font-size: 0.9rem;
-            letter-spacing: 5px;
-            color: var(--text-muted);
-            margin-bottom: 50px;
-            text-transform: uppercase;
-            opacity: 0;
-            animation: fadeUp 1.5s forwards 1.5s;
-        }
-
-        .glow-line {
+        .gold-line {
             width: 0;
             height: 1px;
-            background: linear-gradient(90deg, transparent, var(--gold), transparent);
-            margin: 20px 0;
-            box-shadow: 0 0 10px var(--gold);
-            animation: expandLine 1.5s forwards 1.2s;
+            background: linear-gradient(90deg, transparent, var(--champagne-gold), transparent);
+            margin: 20px auto;
+            transition: width 1.5s cubic-bezier(0.25, 1, 0.5, 1);
         }
+        .gold-line.draw { width: 150px; }
 
-        .enter-btn {
+        .btn-luxury {
+            display: inline-block;
+            margin-top: 40px;
             padding: 15px 40px;
-            background: transparent;
-            border: 1px solid var(--gold);
-            color: var(--gold-light);
-            font-family: var(--font-serif);
-            font-size: 1rem;
-            letter-spacing: 3px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(212, 175, 55, 0.4);
             border-radius: 30px;
+            color: var(--champagne-gold);
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
-            transition: all 0.5s ease;
-            opacity: 0;
-            animation: fadeUp 1.5s forwards 2s;
-            cursor: pointer;
+            pointer-events: auto;
         }
-
-        .enter-btn::before {
+        .btn-luxury::before {
             content: '';
             position: absolute;
             top: 0; left: -100%;
@@ -205,904 +210,1063 @@
             background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), transparent);
             transition: all 0.5s ease;
         }
-
-        .enter-btn:hover::before {
-            left: 100%;
-            transition: 1s;
-        }
-
-        .enter-btn:hover {
+        .btn-luxury:hover {
             background: rgba(212, 175, 55, 0.1);
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.4);
-            transform: scale(1.05);
+            border-color: var(--champagne-gold);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+            transform: translateY(-2px);
         }
+        .btn-luxury:hover::before { left: 100%; }
 
-        /* Main Content Container */
-        #main-content {
+        /* =========================================
+           SCENE 3: CITYSCAPE ATMOSPHERE (PURE CSS)
+           ========================================= */
+        #city-scene {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100dvh;
+            background: linear-gradient(to bottom, #020305 0%, #0a0f1a 60%, #151020 100%);
+            z-index: 0;
             opacity: 0;
-            visibility: hidden;
-            transition: opacity 2s ease;
-            position: relative;
-            z-index: 10;
+            transition: opacity 3s ease;
+            overflow: hidden;
         }
-
-        /* Canvas Background */
-        #particle-canvas {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -2;
-            pointer-events: none;
-        }
-
-        /* City Atmosphere Background */
-        #city-background {
-            position: fixed;
-            bottom: 0; left: 0; width: 100%; height: 40vh;
-            z-index: -1;
-            pointer-events: none;
-            opacity: 0.6;
-            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
-        }
-
-        .building {
+        .moon {
             position: absolute;
-            bottom: 0;
-            background: #020204;
+            top: 15%; right: 15%;
+            width: clamp(80px, 15vw, 150px);
+            height: clamp(80px, 15vw, 150px);
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #fffbf0, #f7dca3 40%, transparent 80%);
+            box-shadow: 0 0 80px rgba(247, 220, 163, 0.3), inset -10px -10px 20px rgba(0,0,0,0.5);
+            filter: blur(1px);
+        }
+        .city-layer {
+            position: absolute;
+            bottom: 0; left: -5%;
+            width: 110%;
+            display: flex;
+            align-items: flex-end;
+            will-change: transform;
+        }
+        .layer-back { height: 60vh; opacity: 0.3; filter: blur(3px); }
+        .layer-mid { height: 45vh; opacity: 0.6; filter: blur(1px); }
+        .layer-front { height: 30vh; opacity: 1; }
+        
+        .bldg {
+            background: #030508;
             border-top: 1px solid rgba(255,255,255,0.05);
             border-right: 1px solid rgba(255,255,255,0.02);
-            box-shadow: inset 0 0 20px rgba(0,0,0,1);
+            position: relative;
         }
-
-        .window {
+        .layer-back .bldg { background: #060912; }
+        .layer-mid .bldg { background: #0a0f1a; }
+        
+        /* Procedural Windows using Gradients */
+        .windows {
             position: absolute;
-            background: rgba(255, 220, 150, 0.8);
-            box-shadow: 0 0 10px rgba(255, 200, 100, 0.5);
-            border-radius: 1px;
-            transition: opacity 2s ease;
+            top: 10px; left: 5px; right: 5px; bottom: 10px;
+            background-image: radial-gradient(rgba(212, 175, 55, 0.6) 1px, transparent 1px);
+            background-size: 15px 20px;
+            opacity: 0.4;
+        }
+        .windows.sparse { background-size: 25px 35px; opacity: 0.2; }
+        .windows.flicker { animation: flicker 4s infinite alternate; }
+        
+        @keyframes flicker {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 0.1; }
+            75% { opacity: 0.6; }
         }
 
         .ambient-glow {
-            position: fixed;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 80vw; height: 80vh;
-            background: radial-gradient(circle, var(--glow-pink) 0%, var(--glow-purple) 30%, transparent 70%);
-            z-index: -3;
-            filter: blur(60px);
-            opacity: 0.5;
-            animation: pulseGlow 10s infinite alternate;
+            position: absolute;
+            bottom: -20vh; left: 50%;
+            transform: translateX(-50%);
+            width: 150vw; height: 50vh;
+            background: radial-gradient(ellipse at center, rgba(212, 175, 55, 0.15) 0%, transparent 60%);
             pointer-events: none;
         }
 
-        /* Glassmorphism Cards */
-        .glass-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 0 20px rgba(255,255,255,0.02);
+        /* =========================================
+           MAIN LAYOUT & SCROLLING SECTIONS
+           ========================================= */
+        #main-scroll-container {
             position: relative;
-            overflow: hidden;
-            transform: translateY(30px);
-            opacity: 0;
-            transition: all 1s cubic-bezier(0.25, 1, 0.5, 1);
+            z-index: 10;
+            width: 100%;
+            opacity: 0; /* Hidden until intro transition */
+            pointer-events: none;
         }
-        
-        .glass-card::after {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%;
-            width: 50%; height: 100%;
-            background: linear-gradient(to right, transparent, rgba(255,255,255,0.05), transparent);
-            transform: skewX(-20deg);
-            animation: shine 8s infinite;
+        #main-scroll-container.visible {
+            opacity: 1;
+            pointer-events: auto;
         }
 
-        .visible {
-            transform: translateY(0) scale(1) !important;
-            opacity: 1 !important;
-            filter: blur(0) !important;
-        }
-
-        /* Section Layouts */
         section {
-            min-height: 100vh;
+            position: relative;
+            min-height: 100dvh;
+            width: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             padding: 20px;
-            position: relative;
-        }
-
-        /* Hero Section */
-        .hero {
             text-align: center;
-            padding-top: 10vh;
         }
 
-        .hero h1 {
-            font-size: clamp(4rem, 15vw, 10rem);
-            line-height: 1;
-            margin-bottom: 20px;
-            position: relative;
-            display: inline-block;
+        /* Glassmorphism Classes */
+        .glass-panel {
+            background: rgba(20, 25, 35, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            border-radius: 20px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
 
-        .sparkle {
-            position: absolute;
-            width: 20px; height: 20px;
-            background: radial-gradient(circle, #fff, transparent);
-            border-radius: 50%;
-            box-shadow: 0 0 10px #fff, 0 0 20px var(--gold);
-            animation: twinkle 1.5s infinite alternate;
-        }
-        .sp-1 { top: -10px; right: -20px; animation-delay: 0s; }
-        .sp-2 { bottom: 10px; left: -20px; animation-delay: 0.5s; width: 10px; height: 10px; }
-        .sp-3 { top: 40%; right: 40%; animation-delay: 1s; width: 15px; height: 15px;}
-
-        .hero-subtitle {
-            font-size: clamp(1.2rem, 3vw, 2rem);
-            font-family: var(--font-serif);
-            color: var(--text-muted);
-            letter-spacing: 2px;
-            margin-bottom: 15px;
-            transform: translateY(20px);
+        /* Scroll Reveal Animation Classes */
+        .reveal {
             opacity: 0;
-        }
-
-        .hero-location {
-            font-size: clamp(0.9rem, 2vw, 1.2rem);
-            letter-spacing: 8px;
-            color: var(--gold);
-            text-transform: uppercase;
-            transform: translateY(20px);
-            opacity: 0;
-        }
-
-        /* Invitation Section */
-        .invitation .glass-card {
-            max-width: 700px;
-            text-align: center;
+            transform: translateY(60px);
             filter: blur(10px);
-            transform: scale(0.9);
+            transition: all 1.2s cubic-bezier(0.25, 1, 0.5, 1);
         }
-
-        .invitation p {
-            font-size: clamp(1.1rem, 2vw, 1.5rem);
-            line-height: 1.8;
-            margin-bottom: 20px;
-            font-weight: 300;
-        }
-
-        /* Timeline Section */
-        .timeline-container {
-            width: 100%;
-            max-width: 600px;
-            position: relative;
-            margin: 50px 0;
-        }
-
-        .timeline-line {
-            position: absolute;
-            left: 20px;
-            top: 0;
-            width: 2px;
-            height: 100%;
-            background: linear-gradient(to bottom, transparent, var(--gold), var(--gold-light), transparent);
-            box-shadow: 0 0 15px var(--gold);
-        }
-
-        .timeline-item {
-            position: relative;
-            padding-left: 60px;
-            margin-bottom: 60px;
-            opacity: 0;
-            transform: translateX(-30px);
-            transition: all 1s ease;
-        }
-
-        .timeline-dot {
-            position: absolute;
-            left: 14px;
-            top: 5px;
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background: var(--bg-color);
-            border: 2px solid var(--gold-light);
-            box-shadow: 0 0 15px var(--gold);
-            z-index: 2;
-            transition: all 0.3s ease;
-        }
-
-        .timeline-item:hover .timeline-dot {
-            background: var(--gold-light);
-            transform: scale(1.3);
-        }
-
-        .timeline-time {
-            font-family: var(--font-serif);
-            color: var(--gold);
-            font-size: 1.2rem;
-            letter-spacing: 2px;
-            margin-bottom: 5px;
-        }
-
-        .timeline-content {
-            font-size: 1.1rem;
-            color: var(--text-muted);
-            font-weight: 300;
-        }
-
-        /* Interactive Moment */
-        .interactive-moment {
-            text-align: center;
-        }
-
-        .reveal-text {
-            font-size: clamp(1.5rem, 4vw, 3rem);
-            line-height: 1.5;
-            margin-bottom: 30px;
-            font-family: var(--font-serif);
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
         }
         
-        .line-1, .line-2, .line-3 {
+        /* Staggered reveals */
+        .d-1 { transition-delay: 0.2s; }
+        .d-2 { transition-delay: 0.4s; }
+        .d-3 { transition-delay: 0.6s; }
+        .d-4 { transition-delay: 0.8s; }
+
+        /* =========================================
+           SCENE 4: HERO MESSAGE
+           ========================================= */
+        .hero-spacer { height: 20vh; }
+        .hero-title {
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, #fff, #d4af37);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero-subtitle {
+            margin-bottom: 1rem;
+            color: rgba(255,255,255,0.8);
+        }
+
+        /* =========================================
+           SCENE 5 & 6: DATE & COUNTDOWN
+           ========================================= */
+        .date-card {
+            padding: 3rem 2rem;
+            max-width: 500px;
+            width: 100%;
+            margin-bottom: 3rem;
+        }
+        .date-display {
+            font-size: 2.5rem;
+            color: var(--champagne-gold);
+            margin: 1.5rem 0;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+        }
+        
+        .countdown-container {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .time-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 80px;
+        }
+        .time-val {
+            font-size: 2.5rem;
+            font-family: var(--font-serif);
+            color: var(--soft-white);
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 12px;
+            padding: 15px;
+            width: 100%;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+        .time-label {
+            margin-top: 10px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: rgba(255,255,255,0.5);
+        }
+        .countdown-msg { margin-top: 2rem; font-style: italic; color: var(--champagne-gold); }
+
+        /* =========================================
+           SCENE 7: EVENING TIMELINE
+           ========================================= */
+        .timeline-section {
+            padding: 10vh 0;
+            align-items: center;
+        }
+        .timeline-container {
+            position: relative;
+            max-width: 800px;
+            width: 90%;
+            margin: 0 auto;
+        }
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: linear-gradient(to bottom, transparent, var(--champagne-gold), transparent);
+            transform: translateX(-50%);
+            opacity: 0.3;
+        }
+        .timeline-item {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            padding-right: 55%;
+            position: relative;
+            margin-bottom: 60px;
+        }
+        .timeline-item:nth-child(even) {
+            justify-content: flex-start;
+            padding-right: 0;
+            padding-left: 55%;
+        }
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            top: 20px;
+            transform: translate(-50%, -50%);
+            width: 12px;
+            height: 12px;
+            background: var(--bg-dark);
+            border: 2px solid var(--champagne-gold);
+            border-radius: 50%;
+            box-shadow: 0 0 15px var(--champagne-gold);
+            z-index: 2;
+        }
+        .timeline-content {
+            padding: 25px;
+            width: 100%;
+            text-align: left;
+        }
+        .timeline-item:nth-child(even) .timeline-content {
+            text-align: right;
+        }
+        .timeline-title {
+            color: var(--champagne-gold);
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        /* =========================================
+           SCENE 8: INTERACTIVE REVEAL
+           ========================================= */
+        .reveal-section {
+            position: relative;
+        }
+        .reveal-mask {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            width: 10px; height: 10px;
+            background: radial-gradient(circle, var(--bg-dark) 40%, transparent 100%);
+            border-radius: 50%;
+            z-index: 15;
+            transition: transform 2s cubic-bezier(0.64, 0.04, 0.35, 1);
+            pointer-events: none;
+        }
+        .reveal-mask.expand {
+            transform: translate(-50%, -50%) scale(500);
+            background: var(--bg-dark);
+        }
+        .reveal-text-container {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 16;
+            width: 90%;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 2s ease 1s;
+        }
+        .reveal-text-container.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        .secret-line {
             display: block;
             opacity: 0;
             transform: translateY(20px);
             transition: all 1s ease;
         }
-        .visible .line-1 { transition-delay: 0.2s; }
-        .visible .line-2 { transition-delay: 1.2s; }
-        .visible .line-3 { transition-delay: 2.2s; color: var(--gold-light); }
+        .reveal-text-container.show .secret-line {
+            opacity: 1; transform: translateY(0);
+        }
+        .reveal-text-container.show .secret-line:nth-child(2) { transition-delay: 1.5s; }
+        .reveal-text-container.show .secret-line:nth-child(3) { transition-delay: 3s; }
 
-        /* Magical Button Section */
-        .magic-btn {
-            padding: 20px 50px;
-            background: rgba(212, 175, 55, 0.1);
-            border: 1px solid var(--gold);
-            border-radius: 50px;
-            color: var(--gold-light);
-            font-family: var(--font-serif);
-            font-size: clamp(1rem, 2vw, 1.5rem);
-            letter-spacing: 3px;
-            cursor: pointer;
-            backdrop-filter: blur(5px);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        /* =========================================
+           SCENE 10: PREMIUM INVITATION CARD
+           ========================================= */
+        .card-container {
+            perspective: 1500px;
+            padding: 50px 20px;
+        }
+        .luxury-card {
+            width: 100%;
+            max-width: 450px;
+            aspect-ratio: 3/4;
             position: relative;
-            overflow: hidden;
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
-        }
-
-        .magic-btn:hover {
-            transform: scale(1.05) translateY(-5px);
-            box-shadow: 0 10px 40px rgba(212, 175, 55, 0.5);
-            background: rgba(212, 175, 55, 0.2);
-        }
-
-        /* Modal */
-        #modal {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100vh;
-            background: rgba(5, 5, 8, 0.8);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            z-index: 2000;
+            transform-style: preserve-3d;
+            transition: transform 0.1s ease, box-shadow 0.3s ease;
+            cursor: pointer;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.5s ease;
+            padding: 40px;
+            background: linear-gradient(145deg, rgba(30, 35, 45, 0.6), rgba(10, 15, 25, 0.8));
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 4px; /* Classic card shape */
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8), inset 0 0 40px rgba(212, 175, 55, 0.05);
         }
-
-        #modal.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .modal-content {
-            background: linear-gradient(145deg, rgba(30,30,35,0.8), rgba(15,15,20,0.9));
-            border: 1px solid var(--gold);
-            padding: 60px 40px;
-            border-radius: 30px;
-            text-align: center;
-            max-width: 600px;
-            width: 90%;
-            transform: scale(0.8) translateY(50px);
-            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.8), inset 0 0 30px rgba(212, 175, 55, 0.2);
-        }
-
-        #modal.active .modal-content {
-            transform: scale(1) translateY(0);
-        }
-
-        .modal-close {
+        .card-inner-border {
             position: absolute;
-            top: 20px; right: 25px;
-            font-size: 2rem;
-            color: var(--text-muted);
-            cursor: pointer;
-            transition: color 0.3s;
+            top: 15px; left: 15px; right: 15px; bottom: 15px;
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            pointer-events: none;
         }
-        .modal-close:hover { color: var(--gold); }
-
-        /* Finale Section */
-        .finale {
-            text-align: center;
-            padding: 20vh 20px;
+        .luxury-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent);
+            transform: skewX(-20deg);
+            animation: shine 6s infinite;
+            pointer-events: none;
+        }
+        @keyframes shine {
+            0% { left: -100%; }
+            20% { left: 200%; }
+            100% { left: 200%; }
+        }
+        .monogram {
+            font-size: 3rem;
+            color: var(--champagne-gold);
+            margin-bottom: 30px;
+            line-height: 1;
+            border-bottom: 1px solid rgba(212,175,55,0.3);
+            padding-bottom: 10px;
         }
         
-        .finale h2 {
-            font-size: clamp(3rem, 10vw, 8rem);
-            margin-bottom: 20px;
-        }
-
-        .moon {
+        /* Burst effect on tap */
+        .light-burst {
             position: absolute;
-            top: 10%; right: 10%;
-            width: clamp(100px, 20vw, 200px);
-            height: clamp(100px, 20vw, 200px);
+            top: 50%; left: 50%;
+            width: 10px; height: 10px;
+            background: var(--champagne-gold);
             border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, #fff, #f9e596, #d4af37, transparent);
-            box-shadow: 0 0 100px rgba(249, 229, 150, 0.4), inset -20px -20px 40px rgba(0,0,0,0.5);
-            z-index: -1;
+            transform: translate(-50%, -50%) scale(0);
             opacity: 0.8;
-            animation: float 10s ease-in-out infinite;
+            pointer-events: none;
+            z-index: -1;
+        }
+        @keyframes burst {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 0.8; }
+            100% { transform: translate(-50%, -50%) scale(60); opacity: 0; }
         }
 
-        /* Music Player */
-        .floating-music-btn {
+        /* =========================================
+           SCENE 16: FINAL REVEAL
+           ========================================= */
+        #final-scene {
+            background: var(--bg-dark);
+            z-index: 20;
+        }
+        .final-sequence {
+            position: sticky;
+            top: 0;
+            height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .final-text {
+            position: absolute;
+            opacity: 0;
+            filter: blur(10px);
+            transition: all 2s ease;
+            font-size: clamp(1.5rem, 4vw, 3rem);
+        }
+        .final-text.show {
+            opacity: 1;
+            filter: blur(0);
+        }
+        .final-text.hide {
+            opacity: 0;
+            filter: blur(10px);
+            transform: translateY(-30px);
+        }
+
+        /* =========================================
+           MUSIC CONTROLS
+           ========================================= */
+        #music-control {
             position: fixed;
             bottom: 30px;
             right: 30px;
-            width: 60px;
-            height: 60px;
+            width: 50px; height: 50px;
+            background: rgba(10, 15, 26, 0.6);
+            border: 1px solid rgba(212, 175, 55, 0.3);
             border-radius: 50%;
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 100;
+            z-index: 9999;
             cursor: pointer;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-            transition: all 0.3s ease;
-        }
-
-        .floating-music-btn:hover {
-            transform: scale(1.1);
-            border-color: var(--gold);
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.4);
-        }
-
-        .equalizer {
-            display: flex;
-            align-items: flex-end;
-            height: 20px;
-            gap: 3px;
-        }
-
-        .bar {
-            width: 4px;
-            background: var(--gold-light);
-            border-radius: 2px;
-            transition: height 0.1s ease;
-        }
-
-        .bar:nth-child(1) { height: 10px; }
-        .bar:nth-child(2) { height: 20px; }
-        .bar:nth-child(3) { height: 15px; }
-        .bar:nth-child(4) { height: 8px; }
-
-        .playing .bar {
-            animation: eqPlay 1s infinite alternate ease-in-out;
-        }
-        .playing .bar:nth-child(1) { animation-delay: 0.1s; }
-        .playing .bar:nth-child(2) { animation-delay: 0.3s; }
-        .playing .bar:nth-child(3) { animation-delay: 0.0s; }
-        .playing .bar:nth-child(4) { animation-delay: 0.2s; }
-
-        .music-label {
-            position: absolute;
-            right: 75px;
-            font-size: 0.8rem;
-            letter-spacing: 2px;
-            color: var(--gold);
+            backdrop-filter: blur(10px);
             opacity: 0;
-            transition: opacity 0.3s, transform 0.3s;
-            transform: translateX(10px);
-            white-space: nowrap;
+            transition: opacity 1s ease, transform 0.3s ease;
+            pointer-events: none;
         }
-
-        .floating-music-btn:hover .music-label {
+        #music-control.visible {
             opacity: 1;
-            transform: translateX(0);
+            pointer-events: auto;
         }
+        #music-control:hover { transform: scale(1.1); border-color: var(--champagne-gold); }
+        .eq-bars { display: flex; gap: 3px; align-items: flex-end; height: 15px; }
+        .eq-bar { width: 3px; background: var(--champagne-gold); border-radius: 2px; }
+        .playing .eq-bar:nth-child(1) { animation: eq 1s infinite alternate; }
+        .playing .eq-bar:nth-child(2) { animation: eq 0.8s infinite alternate 0.2s; }
+        .playing .eq-bar:nth-child(3) { animation: eq 1.2s infinite alternate 0.4s; }
+        @keyframes eq { 0% { height: 4px; } 100% { height: 15px; } }
+        .music-paused-icon { display: none; color: var(--champagne-gold); font-size: 14px; }
+        .paused .eq-bars { display: none; }
+        .paused .music-paused-icon { display: block; }
 
-        /* Keyframes */
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-        @keyframes pulseText { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; text-shadow: 0 0 10px var(--gold); } }
-        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
-        @keyframes expandLine { to { width: 80%; max-width: 300px; } }
-        @keyframes twinkle { to { opacity: 0.3; transform: scale(0.5); } }
-        @keyframes pulseGlow { to { transform: translate(-50%, -50%) scale(1.2); opacity: 0.7; } }
-        @keyframes shine { 100% { left: 200%; } }
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
-        @keyframes eqPlay { 0% { height: 4px; } 100% { height: 20px; } }
-
-        /* Responsive Design */
+        /* =========================================
+           MOBILE RESPONSIVENESS
+           ========================================= */
         @media (max-width: 768px) {
-            .cursor-dot, .cursor-outline { display: none; }
-            * { cursor: auto; }
-            .glass-card { padding: 30px 20px; }
-            .timeline-container { padding: 0 20px; }
-            .floating-music-btn { bottom: 20px; right: 20px; width: 50px; height: 50px; }
-            .music-label { display: none; }
+            .timeline-line { left: 30px; }
+            .timeline-item { justify-content: flex-end !important; padding-left: 70px !important; padding-right: 0 !important; }
+            .timeline-item:nth-child(even) .timeline-content { text-align: left; }
+            .timeline-dot { left: 30px; }
+            
+            .luxury-card { width: 90%; padding: 30px 15px; }
+            .card-container { perspective: none; } /* Disable 3D on mobile for performance/ux */
+            .luxury-card {
+                animation: float 6s ease-in-out infinite;
+                transform: none !important;
+            }
+            
+            #music-control { bottom: 20px; right: 20px; width: 45px; height: 45px; }
+            .countdown-container { gap: 1rem; }
+            .time-box { min-width: 65px; }
+            .time-val { font-size: 1.8rem; padding: 10px; }
+            
+            .city-layer { width: 150%; left: -25%; } /* wider on mobile to allow panning */
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
         }
     </style>
 </head>
 <body>
 
-    <!-- Custom Cursor -->
-    <div class="cursor-dot"></div>
-    <div class="cursor-outline"></div>
+    <!-- =========================================
+         CONFIGURATION SCRIPT
+         ========================================= -->
+    <script>
+        const CONFIG = {
+            name: "Hiya",
+            location: "City Centre, Guwahati",
+            // EDIT THIS DATE (Format: "Month DD, YYYY HH:MM:SS")
+            // Example: "December 25, 2026 19:00:00"
+            eventDate: "YOUR_DATE_HERE", 
+            eventTime: "Evening",
+            // EDIT THIS URL to your preferred music file
+            music: "https://cdn.pixabay.com/download/audio/2022/05/16/audio_03d29cb1f1.mp3?filename=cinematic-documentary-piano-110531.mp3" 
+        };
+    </script>
 
-    <!-- Background Audio -->
-    <!-- Replace src with actual audio file, e.g., src="your-romantic-song.mp3" -->
-    <audio id="bg-music" loop>
-        <source src="data:audio/mp3;base64,//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq" type="audio/mp3">
+    <!-- AUDIO ELEMENT -->
+    <audio id="bg-audio" loop preload="auto">
+        <source src="" type="audio/mpeg">
     </audio>
 
-    <!-- Loading Screen -->
-    <div id="loading">
-        <div class="loader-ring"></div>
-        <div class="loading-text">PREPARING YOUR EVENING</div>
+    <!-- MUSIC CONTROLS -->
+    <div id="music-control" class="paused">
+        <div class="eq-bars">
+            <div class="eq-bar"></div>
+            <div class="eq-bar"></div>
+            <div class="eq-bar"></div>
+        </div>
+        <div class="music-paused-icon">♪</div>
     </div>
 
-    <!-- Intro Screen -->
-    <div id="intro-screen">
-        <h1 class="intro-title text-gold">AN EVENING</h1>
-        <h2 class="intro-title text-gold" style="animation-delay: 0.7s;">FOR HIYA</h2>
-        <div class="glow-line"></div>
-        <div class="intro-location">City Centre • Guwahati</div>
-        <button class="enter-btn" onclick="startExperience()">ENTER THE EVENING ✨</button>
+    <!-- PARTICLE CANVAS -->
+    <canvas id="particles"></canvas>
+
+    <!-- PRELOADER -->
+    <div id="preloader">
+        <div class="ring"></div>
+        <div class="preloader-text sans">Preparing something special...</div>
     </div>
 
-    <!-- Main Content -->
-    <div id="main-content">
-        
-        <canvas id="particle-canvas"></canvas>
-        <div id="city-background"></div>
-        <div class="ambient-glow"></div>
-        <div class="moon"></div>
-
-        <!-- Music Button -->
-        <div class="floating-music-btn" onclick="toggleMusic()">
-            <div class="music-label">MUSIC</div>
-            <div class="equalizer" id="eq">
-                <div class="bar"></div>
-                <div class="bar"></div>
-                <div class="bar"></div>
-                <div class="bar"></div>
+    <!-- SCENE 1: INTRO -->
+    <div id="intro-scene">
+        <div class="intro-content">
+            <div class="intro-step serif" id="intro-1">
+                <h2 class="title-small text-gold tracking-wide">Some evenings are worth planning for.</h2>
+            </div>
+            <div class="intro-step serif" id="intro-2">
+                <h2 class="title-small text-rose tracking-wide">Especially one for...</h2>
+            </div>
+            <div class="intro-step" id="intro-3">
+                <h1 class="script glowing-name">Hiya</h1>
+                <p class="sans tracking-widest text-gold" style="font-size: 0.9rem; text-transform: uppercase;">City Centre • Guwahati</p>
+                <div class="gold-line" id="intro-line"></div>
+                <p class="sans tracking-wide" style="font-size: 1rem; opacity: 0.8; margin-top: 15px;">An evening to look forward to.</p>
+                <button class="btn-luxury" id="btn-open">Open The Invitation</button>
             </div>
         </div>
+    </div>
 
-        <!-- Hero Section -->
-        <section class="hero reveal-on-scroll">
-            <h1 class="text-gold parallax" data-speed="0.05">
-                Hiya
-                <div class="sparkle sp-1"></div>
-                <div class="sparkle sp-2"></div>
-                <div class="sparkle sp-3"></div>
-            </h1>
-            <p class="hero-subtitle parallax" data-speed="0.08" style="transition: all 1.5s ease 0.5s;">Tonight is a little different.</p>
-            <p class="hero-location parallax" data-speed="0.1" style="transition: all 1.5s ease 1s;">An Evening at City Centre<br><br>Guwahati</p>
+    <!-- SCENE 3: CITYSCAPE ATMOSPHERE -->
+    <div id="city-scene">
+        <div class="moon"></div>
+        <div class="ambient-glow"></div>
+        <div class="city-layer layer-back" id="skyline-back"></div>
+        <div class="city-layer layer-mid" id="skyline-mid"></div>
+        <div class="city-layer layer-front" id="skyline-front"></div>
+    </div>
+
+    <!-- MAIN SCROLL CONTAINER -->
+    <div id="main-scroll-container">
+        
+        <!-- SCENE 4: HERO -->
+        <section class="hero-section">
+            <div class="hero-spacer"></div>
+            <h1 class="script title-large reveal d-1" style="margin-bottom: 20px;">Hiya,</h1>
+            <h2 class="serif title-small text-gold reveal d-2 tracking-wide" style="margin-bottom: 10px;">I have a little plan for you.</h2>
+            <p class="sans body-text reveal d-3" style="color: #aaa;">One beautiful evening...</p>
+            <p class="sans body-text reveal d-4" style="color: #aaa;">at City Centre, Guwahati.</p>
+            <div class="hero-spacer"></div>
         </section>
 
-        <!-- Invitation Section -->
-        <section class="invitation reveal-on-scroll">
-            <div class="glass-card parallax" data-speed="-0.03">
-                <p><span class="script-font">Hiya,</span></p>
-                <br>
-                <p>You are warmly invited to a beautiful evening carefully created just for you.</p>
-                <p style="color: var(--gold); font-family: var(--font-serif); letter-spacing: 2px;">City Centre, Guwahati</p>
+        <!-- SCENE 5 & 6: DATE & COUNTDOWN -->
+        <section class="date-section">
+            <div class="glass-panel date-card reveal">
+                <h3 class="serif title-small tracking-widest" style="color: rgba(255,255,255,0.7); text-transform: uppercase;">Save this evening</h3>
+                <div class="serif date-display" id="display-date">A Special Day</div>
+                <p class="sans tracking-wide text-rose" style="font-size: 0.9rem; margin-bottom: 30px;">An evening planned especially for you.</p>
+                
+                <div class="countdown-container" id="countdown-ui">
+                    <div class="time-box">
+                        <div class="time-val" id="cd-days">00</div>
+                        <div class="time-label">Days</div>
+                    </div>
+                    <div class="time-box">
+                        <div class="time-val" id="cd-hours">00</div>
+                        <div class="time-label">Hours</div>
+                    </div>
+                    <div class="time-box">
+                        <div class="time-val" id="cd-mins">00</div>
+                        <div class="time-label">Mins</div>
+                    </div>
+                    <div class="time-box">
+                        <div class="time-val" id="cd-secs">00</div>
+                        <div class="time-label">Secs</div>
+                    </div>
+                </div>
+                <p class="sans countdown-msg" id="countdown-msg"></p>
             </div>
         </section>
 
-        <!-- Timeline Section -->
-        <section class="timeline reveal-on-scroll">
-            <div class="glass-card parallax" data-speed="0.02" style="width: 90%; max-width: 800px;">
-                <h3 class="text-gold" style="text-align: center; font-size: 2rem; margin-bottom: 40px; letter-spacing: 3px;">The Evening</h3>
-                <div class="timeline-container">
-                    <div class="timeline-line"></div>
-                    
-                    <div class="timeline-item reveal-on-scroll">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-time">06:00 PM</div>
-                        <div class="timeline-content">Let the evening begin ✨</div>
+        <!-- SCENE 7: TIMELINE -->
+        <section class="timeline-section">
+            <div class="timeline-container">
+                <div class="timeline-line"></div>
+                
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content glass-panel">
+                        <h4 class="serif timeline-title">The Beginning</h4>
+                        <p class="sans body-text">A little walk through the evening, taking in the moments as they come.</p>
                     </div>
-                    
-                    <div class="timeline-item reveal-on-scroll">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-time">07:00 PM</div>
-                        <div class="timeline-content">City lights & beautiful conversations</div>
+                </div>
+                
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content glass-panel">
+                        <h4 class="serif timeline-title">The City Lights</h4>
+                        <p class="sans body-text">Time to enjoy the atmosphere and the quiet hum of Guwahati around us.</p>
                     </div>
-                    
-                    <div class="timeline-item reveal-on-scroll">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-time">08:00 PM</div>
-                        <div class="timeline-content">Good food, better moments</div>
+                </div>
+                
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content glass-panel">
+                        <h4 class="serif timeline-title">Good Food</h4>
+                        <p class="sans body-text">Something delicious along the way, because no evening is complete without it.</p>
                     </div>
-                    
-                    <div class="timeline-item reveal-on-scroll">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-time">09:00 PM</div>
-                        <div class="timeline-content">Making the evening memorable ❤️</div>
+                </div>
+                
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content glass-panel">
+                        <h4 class="serif timeline-title">Good Conversations</h4>
+                        <p class="sans body-text">The best part of any plan—just talking, laughing, and being present.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content glass-panel">
+                        <h4 class="serif timeline-title">A Memory</h4>
+                        <p class="sans body-text">Something beautiful worth remembering long after the night ends.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Interactive Moment -->
-        <section class="interactive-moment reveal-on-scroll">
-            <div class="reveal-text">
-                <span class="line-1">Some evenings are ordinary...</span>
-                <span class="line-2">...and some are meant to be remembered.</span>
-                <span class="line-3">Tonight is for Hiya. ❤️</span>
-            </div>
-        </section>
-
-        <!-- Magical Action -->
-        <section class="magical-action reveal-on-scroll">
-            <button class="magic-btn parallax" data-speed="0.05" onclick="makeMagical(event)">MAKE THIS EVENING SPECIAL ✨</button>
-        </section>
-
-        <!-- Memory Section -->
-        <section class="memory reveal-on-scroll">
-            <div class="glass-card parallax" data-speed="-0.04" style="text-align: center; max-width: 800px;">
-                <p style="font-family: var(--font-serif); font-size: clamp(1.2rem, 3vw, 2rem); color: var(--gold-light); margin-bottom: 20px;">Maybe this evening becomes a memory...</p>
-                <p style="font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 20px;">Maybe it becomes one of those moments we simply smile about later when looking back.</p>
-                <p style="font-size: 1.2rem; font-style: italic;">Either way, let’s enjoy it.</p>
-            </div>
-        </section>
-
-        <!-- Finale Section -->
-        <footer class="finale reveal-on-scroll">
-            <h2 class="text-gold parallax" data-speed="0.08">HIYA ✨</h2>
-            <p class="parallax" data-speed="0.04" style="font-size: clamp(1rem, 2.5vw, 1.5rem); letter-spacing: 5px; color: var(--text-muted); margin-bottom: 30px; text-transform: uppercase;">See you at City Centre, Guwahati.</p>
-            <p class="script-font parallax" data-speed="0.02" style="font-size: clamp(2rem, 5vw, 4rem);">Let the evening begin...</p>
+        <!-- SCENE 8: INTERACTIVE REVEAL -->
+        <section class="reveal-section reveal">
+            <h2 class="serif title-medium text-gold" style="margin-bottom: 30px; z-index: 10; position: relative;">Want to know the best part?</h2>
+            <button class="btn-luxury" id="btn-reveal" style="z-index: 10; position: relative;">REVEAL IT ✨</button>
             
-            <div style="margin-top: 100px; font-size: 0.8rem; color: rgba(255,255,255,0.3); letter-spacing: 2px;">
-                Made for a beautiful evening with Hiya ❤️
+            <div class="reveal-mask" id="reveal-mask"></div>
+            <div class="reveal-text-container" id="reveal-text">
+                <h3 class="serif title-medium text-gold secret-line" style="margin-bottom: 20px;">The best part...</h3>
+                <p class="sans title-small secret-line" style="margin-bottom: 40px; color: #eee; font-weight: 300;">...is simply having a beautiful evening together.</p>
+                <p class="script secret-line" style="font-size: 2.5rem; color: var(--subtle-rose);">— Hiya, this one is for you. ✨</p>
             </div>
-        </footer>
+        </section>
 
-    </div>
+        <!-- SCENE 10 & 11: PREMIUM CARD -->
+        <section class="card-section" style="padding-top: 15vh;">
+            <div class="card-container reveal">
+                <div class="luxury-card" id="invite-card">
+                    <div class="card-inner-border"></div>
+                    <div class="light-burst" id="card-burst"></div>
+                    
+                    <div class="monogram script">H</div>
+                    <h2 class="serif tracking-wide text-gold" style="font-size: 1.2rem; margin-bottom: 10px; text-transform: uppercase;">An Evening for Hiya</h2>
+                    <p class="sans tracking-widest" style="font-size: 0.8rem; opacity: 0.7; margin-bottom: 20px; text-transform: uppercase;">City Centre, Guwahati</p>
+                    
+                    <div style="width: 50px; height: 1px; background: var(--champagne-gold); margin: 15px auto; opacity: 0.5;"></div>
+                    
+                    <p class="serif" id="card-date-display" style="font-size: 1.1rem; margin-bottom: 5px;">A Future Evening</p>
+                    <p class="sans" style="font-size: 0.8rem; opacity: 0.5; margin-bottom: 30px;">Time: When the lights turn on</p>
+                    
+                    <p class="script text-rose" style="font-size: 1.5rem; line-height: 1.3;">Come with a little time,<br>leave with a beautiful memory.</p>
+                </div>
+            </div>
+        </section>
 
-    <!-- Modal -->
-    <div id="modal">
-        <div class="modal-content">
-            <div class="modal-close" onclick="closeModal()">&times;</div>
-            <h3 class="script-font" style="margin-bottom: 20px; font-size: 4rem;">Hiya,</h3>
-            <p style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--gold-light); line-height: 1.6;">
-                let’s make tonight a memory worth keeping. ✨
-            </p>
-        </div>
-    </div>
-
-    <script>
-        // --- Globals & Utils ---
-        const isMobile = window.innerWidth < 768;
+        <!-- SCENE 16: FINAL REVEAL -->
+        <section id="final-scene">
+            <div class="final-sequence">
+                <div class="final-text script text-gold" id="f-1" style="font-size: clamp(4rem, 10vw, 8rem);">Hiya</div>
+                <div class="final-text serif tracking-wide" id="f-2">One evening.</div>
+                <div class="final-text serif tracking-wide" id="f-3">One place.</div>
+                <div class="final-text serif" id="f-4" style="color: var(--subtle-rose); max-width: 80%; text-align: center;">One beautiful memory waiting to happen.</div>
+                <div class="final-text sans" id="f-5">
+                    <span class="tracking-widest text-gold" style="font-size: 1.2rem; text-transform: uppercase; display: block; margin-bottom: 10px;">City Centre, Guwahati</span>
+                    <span id="final-date-display" style="opacity: 0.7; font-size: 0.9rem;">The Date</span>
+                </div>
+                <div class="final-text script" id="f-6" style="font-size: 3rem; color: #fff;">Until then... ✨</div>
+            </div>
+        </section>
         
-        // --- Loading & Intro Logic ---
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('loading').style.opacity = '0';
-                setTimeout(() => {
-                    document.getElementById('loading').style.display = 'none';
-                }, 1500);
-            }, 2000);
-        });
+    </div>
 
-        function startExperience() {
-            const intro = document.getElementById('intro-screen');
-            const main = document.getElementById('main-content');
+    <!-- =========================================
+         JAVASCRIPT LOGIC
+         ========================================= -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
             
-            // Audio Play attempt
-            const audio = document.getElementById('bg-music');
-            audio.volume = 0.5;
-            audio.play().then(() => {
-                document.getElementById('eq').classList.add('playing');
-            }).catch(e => console.log("Audio autoplay blocked", e));
-
-            intro.style.transform = 'scale(1.5)';
-            intro.style.opacity = '0';
+            // --- POPULATE CONFIG DATA ---
+            const displayDateObj = document.getElementById('display-date');
+            const cardDateObj = document.getElementById('card-date-display');
+            const finalDateObj = document.getElementById('final-date-display');
             
-            setTimeout(() => {
-                intro.style.display = 'none';
-                main.style.visibility = 'visible';
-                main.style.opacity = '1';
-                
-                // Trigger initial scroll reveals
-                setTimeout(() => {
-                    document.querySelectorAll('.hero-subtitle, .hero-location').forEach(el => {
-                        el.style.opacity = '1';
-                        el.style.transform = 'translateY(0)';
-                    });
-                }, 500);
-
-            }, 1500);
+            const isPlaceholderDate = CONFIG.eventDate === "YOUR_DATE_HERE" || !CONFIG.eventDate;
+            const displayStr = isPlaceholderDate ? "A Special Day (Date to be decided)" : CONFIG.eventDate;
             
-            initCityscape();
-            initParticles();
-        }
+            displayDateObj.innerText = displayStr;
+            cardDateObj.innerText = displayStr;
+            finalDateObj.innerText = displayStr;
 
-        // --- Audio Control ---
-        function toggleMusic() {
-            const audio = document.getElementById('bg-music');
-            const eq = document.getElementById('eq');
-            if (audio.paused) {
-                audio.play();
-                eq.classList.add('playing');
-            } else {
-                audio.pause();
-                eq.classList.remove('playing');
-            }
-        }
+            document.getElementById('bg-audio').src = CONFIG.music;
 
-        // --- Custom Cursor & Hover Effects (Desktop Only) ---
-        if (!isMobile) {
-            const cursorDot = document.querySelector('.cursor-dot');
-            const cursorOutline = document.querySelector('.cursor-outline');
+            // --- BUILD CITYSCAPE ---
+            function buildCity() {
+                const back = document.getElementById('skyline-back');
+                const mid = document.getElementById('skyline-mid');
+                const front = document.getElementById('skyline-front');
 
-            window.addEventListener('mousemove', (e) => {
-                const posX = e.clientX;
-                const posY = e.clientY;
-
-                cursorDot.style.left = `${posX}px`;
-                cursorDot.style.top = `${posY}px`;
-
-                // Slight delay on outline
-                cursorOutline.animate({
-                    left: `${posX}px`,
-                    top: `${posY}px`
-                }, { duration: 500, fill: "forwards" });
-            });
-
-            // Add hover state to interactive elements
-            const interactives = document.querySelectorAll('button, .floating-music-btn, .modal-close');
-            interactives.forEach(el => {
-                el.addEventListener('mouseenter', () => cursorOutline.classList.add('hover'));
-                el.addEventListener('mouseleave', () => cursorOutline.classList.remove('hover'));
-            });
-            
-            // Parallax effect on mouse move
-            document.addEventListener('mousemove', (e) => {
-                const x = (window.innerWidth - e.pageX * 2) / 100;
-                const y = (window.innerHeight - e.pageY * 2) / 100;
-
-                document.querySelectorAll('.parallax').forEach(elem => {
-                    const speed = elem.getAttribute('data-speed');
-                    const xOffset = x * speed * 100;
-                    const yOffset = y * speed * 100;
-                    elem.style.transform = `translateX(${xOffset}px) translateY(${yOffset}px)`;
-                });
-            });
-        }
-
-        // --- Scroll Reveal with Intersection Observer ---
-        const revealOptions = { threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
-        const revealObserver = new IntersectionObserver(function(entries, observer) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    // Special case for hero subtitle/location if they re-enter
-                    if(entry.target.classList.contains('hero')) {
-                         entry.target.querySelectorAll('.hero-subtitle, .hero-location').forEach(el => {
-                            el.style.opacity = '1';
-                            el.style.transform = 'translateY(0)';
-                         });
-                    }
-                }
-            });
-        }, revealOptions);
-
-        document.querySelectorAll('.reveal-on-scroll, .timeline-item').forEach(el => {
-            revealObserver.observe(el);
-        });
-
-        // --- Dynamic Cityscape Generation ---
-        function initCityscape() {
-            const container = document.getElementById('city-background');
-            const width = window.innerWidth;
-            const buildingCount = isMobile ? 15 : 40;
-            let currentX = 0;
-
-            for (let i = 0; i < buildingCount; i++) {
-                if (currentX > width) break;
-
-                const bWidth = Math.random() * 60 + 30; // 30px to 90px
-                const bHeight = Math.random() * 30 + 10; // 10vh to 40vh
-                
-                const building = document.createElement('div');
-                building.className = 'building';
-                building.style.width = `${bWidth}px`;
-                building.style.height = `${bHeight}vh`;
-                building.style.left = `${currentX}px`;
-
-                // Add windows
-                const rows = Math.floor(bHeight / 4);
-                const cols = Math.floor(bWidth / 15);
-
-                for (let r = 0; r < rows; r++) {
-                    for (let c = 0; c < cols; c++) {
-                        if (Math.random() > 0.6) { // 40% chance of light on
-                            const win = document.createElement('div');
-                            win.className = 'window';
-                            win.style.width = '4px';
-                            win.style.height = '6px';
-                            win.style.bottom = `${r * 12 + 5}px`;
-                            win.style.left = `${c * 12 + 5}px`;
-                            
-                            // Random twinkling
-                            win.style.animation = `pulseText ${Math.random()*3+2}s infinite alternate`;
-                            building.appendChild(win);
+                const createBuildings = (container, count, minW, maxW, minH, maxH, hasWindows) => {
+                    for(let i=0; i<count; i++) {
+                        let b = document.createElement('div');
+                        b.className = 'bldg';
+                        b.style.width = Math.floor(Math.random() * (maxW - minW) + minW) + '%';
+                        b.style.height = Math.floor(Math.random() * (maxH - minH) + minH) + '%';
+                        
+                        if(hasWindows && Math.random() > 0.3) {
+                            let w = document.createElement('div');
+                            w.className = 'windows' + (Math.random() > 0.5 ? ' sparse' : '') + (Math.random() > 0.8 ? ' flicker' : '');
+                            b.appendChild(w);
                         }
+                        container.appendChild(b);
                     }
-                }
+                };
 
-                container.appendChild(building);
-                currentX += bWidth + (Math.random() * 5); // small gap
+                createBuildings(back, 15, 5, 12, 30, 100, false);
+                createBuildings(mid, 12, 6, 15, 20, 80, true);
+                createBuildings(front, 10, 8, 20, 10, 60, false);
             }
-        }
+            buildCity();
 
-        // --- Particle System (Canvas) ---
-        const canvas = document.getElementById('particle-canvas');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-        let canvasWidth, canvasHeight;
+            // --- PRELOADER & INTRO SEQUENCE ---
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    document.getElementById('preloader').style.opacity = '0';
+                    setTimeout(() => {
+                        document.getElementById('preloader').style.display = 'none';
+                        startIntro();
+                    }, 1500);
+                }, 1000);
+            });
 
-        function resizeCanvas() {
-            canvasWidth = window.innerWidth;
-            canvasHeight = window.innerHeight;
-            canvas.width = canvasWidth;
-            canvas.height = canvasHeight;
-        }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
+            function startIntro() {
+                const step1 = document.getElementById('intro-1');
+                const step2 = document.getElementById('intro-2');
+                const step3 = document.getElementById('intro-3');
+                const line = document.getElementById('intro-line');
 
-        class Particle {
-            constructor(x, y, isBurst = false) {
-                this.x = x || Math.random() * canvasWidth;
-                this.y = y || Math.random() * canvasHeight;
-                this.size = Math.random() * 2 + 0.5;
+                setTimeout(() => { step1.classList.add('active'); }, 500);
+                setTimeout(() => { 
+                    step1.classList.remove('active'); 
+                    step1.classList.add('fade-out');
+                }, 3500);
                 
-                if (isBurst) {
-                    const angle = Math.random() * Math.PI * 2;
-                    const speed = Math.random() * 10 + 2;
-                    this.vx = Math.cos(angle) * speed;
-                    this.vy = Math.sin(angle) * speed;
-                    this.life = 1.0;
-                    this.decay = Math.random() * 0.02 + 0.01;
-                    this.color = Math.random() > 0.5 ? '#D4AF37' : '#F9E596';
-                    this.size = Math.random() * 4 + 1;
-                } else {
-                    this.vx = (Math.random() - 0.5) * 0.5;
-                    this.vy = (Math.random() - 0.5) * 0.5 - 0.2; // slight upward drift
-                    this.life = Math.random();
-                    this.decay = 0;
-                    
-                    const rand = Math.random();
-                    if (rand < 0.6) this.color = 'rgba(212, 175, 55,'; // Gold
-                    else if (rand < 0.9) this.color = 'rgba(255, 255, 255,'; // White/Star
-                    else this.color = 'rgba(255, 182, 193,'; // Pinkish bokeh
-                }
-                this.isBurst = isBurst;
+                setTimeout(() => { step2.classList.add('active'); }, 5000);
+                setTimeout(() => { 
+                    step2.classList.remove('active'); 
+                    step2.classList.add('fade-out');
+                }, 8000);
+
+                setTimeout(() => { 
+                    step3.classList.add('active'); 
+                    setTimeout(() => { line.classList.add('draw'); }, 1000);
+                }, 9500);
             }
 
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
+            // --- OPEN INVITATION TRANSITION ---
+            const btnOpen = document.getElementById('btn-open');
+            const introScene = document.getElementById('intro-scene');
+            const cityScene = document.getElementById('city-scene');
+            const mainContent = document.getElementById('main-scroll-container');
+            const audio = document.getElementById('bg-audio');
+            const musicCtrl = document.getElementById('music-control');
 
-                if (this.isBurst) {
-                    this.life -= this.decay;
-                    this.vy += 0.1; // gravity
-                } else {
-                    // Wrap around
-                    if (this.x < 0) this.x = canvasWidth;
-                    if (this.x > canvasWidth) this.x = 0;
-                    if (this.y < 0) this.y = canvasHeight;
-                    if (this.y > canvasHeight) this.y = 0;
+            btnOpen.addEventListener('click', () => {
+                // Play music
+                audio.play().then(() => {
+                    musicCtrl.classList.remove('paused');
+                    musicCtrl.classList.add('playing');
+                }).catch(e => console.log('Audio autoplay blocked'));
+                musicCtrl.classList.add('visible');
+
+                // Cinematic Transition
+                introScene.style.transform = 'scale(1.5)';
+                introScene.style.filter = 'blur(20px)';
+                introScene.style.opacity = '0';
+
+                setTimeout(() => {
+                    introScene.style.display = 'none';
+                    cityScene.style.opacity = '1';
+                    mainContent.classList.add('visible');
                     
-                    // Twinkle
-                    this.life += 0.02;
+                    // Trigger first reveals
+                    setTimeout(() => {
+                        handleScroll();
+                    }, 500);
+                }, 1500);
+            });
+
+            // --- MUSIC CONTROL ---
+            musicCtrl.addEventListener('click', () => {
+                if(audio.paused) {
+                    audio.play();
+                    musicCtrl.classList.remove('paused');
+                    musicCtrl.classList.add('playing');
+                } else {
+                    audio.pause();
+                    musicCtrl.classList.add('paused');
+                    musicCtrl.classList.remove('playing');
                 }
-            }
+            });
 
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                
-                if (this.isBurst) {
-                    ctx.fillStyle = this.color;
-                    ctx.globalAlpha = Math.max(0, this.life);
-                } else {
-                    const alpha = (Math.sin(this.life) * 0.5 + 0.5) * 0.8;
-                    ctx.fillStyle = this.color + alpha + ')';
-                    ctx.globalAlpha = 1;
+            // --- PARTICLE ENGINE ---
+            const canvas = document.getElementById('particles');
+            const ctx = canvas.getContext('2d');
+            let particlesArray = [];
+            
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+
+            const isMobile = window.innerWidth < 768;
+            const particleCount = isMobile ? 40 : 100;
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.size = Math.random() * 2 + 0.5;
+                    this.speedX = Math.random() * 0.5 - 0.25;
+                    this.speedY = Math.random() * -0.5 - 0.1; // float upwards
+                    this.color = Math.random() > 0.5 ? 'rgba(212, 175, 55, ' : 'rgba(255, 255, 255, ';
+                    this.alpha = Math.random() * 0.5 + 0.1;
+                    this.twinkleSpeed = Math.random() * 0.02 + 0.005;
+                }
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    this.alpha += this.twinkleSpeed;
                     
-                    // Glow for larger particles
-                    if (this.size > 1.5) {
-                        ctx.shadowBlur = 10;
-                        ctx.shadowColor = this.color + '1)';
-                    } else {
-                        ctx.shadowBlur = 0;
+                    if (this.alpha >= 0.8 || this.alpha <= 0.1) {
+                        this.twinkleSpeed = -this.twinkleSpeed;
                     }
+                    
+                    if (this.y < 0) {
+                        this.y = canvas.height;
+                        this.x = Math.random() * canvas.width;
+                    }
+                    if (this.x > canvas.width) this.x = 0;
+                    if (this.x < 0) this.x = canvas.width;
                 }
-                
-                ctx.fill();
-                ctx.globalAlpha = 1; // reset
-                ctx.shadowBlur = 0;
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fillStyle = this.color + this.alpha + ')';
+                    ctx.fill();
+                }
             }
-        }
 
-        function initParticles() {
-            const count = isMobile ? 50 : 150;
-            for (let i = 0; i < count; i++) {
-                particles.push(new Particle());
+            function initParticles() {
+                particlesArray = [];
+                for (let i = 0; i < particleCount; i++) {
+                    particlesArray.push(new Particle());
+                }
+            }
+            initParticles();
+
+            function animateParticles() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                for (let i = 0; i < particlesArray.length; i++) {
+                    particlesArray[i].update();
+                    particlesArray[i].draw();
+                }
+                requestAnimationFrame(animateParticles);
             }
             animateParticles();
-        }
 
-        function animateParticles() {
-            ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+            // Mouse Parallax for City & Particles (Desktop only)
+            if(!isMobile) {
+                window.addEventListener('mousemove', (e) => {
+                    const mouseX = e.clientX / window.innerWidth - 0.5;
+                    const mouseY = e.clientY / window.innerHeight - 0.5;
+                    
+                    document.getElementById('skyline-back').style.transform = `translateX(${mouseX * -10}px)`;
+                    document.getElementById('skyline-mid').style.transform = `translateX(${mouseX * -20}px)`;
+                    document.getElementById('skyline-front').style.transform = `translateX(${mouseX * -30}px)`;
+                });
+            }
+
+            // --- COUNTDOWN LOGIC ---
+            const cdMsg = document.getElementById('countdown-msg');
+            const cdUI = document.getElementById('countdown-ui');
             
-            for (let i = particles.length - 1; i >= 0; i--) {
-                const p = particles[i];
-                p.update();
-                p.draw();
-                
-                // Remove dead burst particles
-                if (p.isBurst && p.life <= 0) {
-                    particles.splice(i, 1);
+            if (isPlaceholderDate) {
+                cdUI.style.display = 'none';
+                cdMsg.innerText = "The exact date is a secret for now. Your countdown will appear here.";
+            } else {
+                const targetDate = new Date(CONFIG.eventDate).getTime();
+                if(isNaN(targetDate)) {
+                    cdUI.style.display = 'none';
+                    cdMsg.innerText = "Date configuration invalid. But the evening remains special.";
+                } else {
+                    cdMsg.innerText = "Counting down the moments...";
+                    const timer = setInterval(() => {
+                        const now = new Date().getTime();
+                        const distance = targetDate - now;
+
+                        if (distance < 0) {
+                            clearInterval(timer);
+                            cdUI.style.display = 'none';
+                            cdMsg.innerText = "The moment has arrived. ✨";
+                            return;
+                        }
+
+                        document.getElementById('cd-days').innerText = Math.floor(distance / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
+                        document.getElementById('cd-hours').innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+                        document.getElementById('cd-mins').innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+                        document.getElementById('cd-secs').innerText = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, '0');
+                    }, 1000);
                 }
             }
+
+            // --- SCROLL OBSERVER ---
+            const reveals = document.querySelectorAll('.reveal');
+            const revealOptions = { threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
             
-            requestAnimationFrame(animateParticles);
-        }
+            const revealOnScroll = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, revealOptions);
+            
+            reveals.forEach(reveal => { revealOnScroll.observe(reveal); });
 
-        // --- Interactivity (Magical Button & Modal) ---
-        function makeMagical(e) {
-            // Particle Burst
-            const rect = e.target.getBoundingClientRect();
-            const x = rect.left + rect.width / 2;
-            const y = rect.top + rect.height / 2;
+            // Fallback for initial manual trigger
+            function handleScroll() {
+                reveals.forEach(reveal => {
+                    const windowHeight = window.innerHeight;
+                    const elementTop = reveal.getBoundingClientRect().top;
+                    if (elementTop < windowHeight - 50) {
+                        reveal.classList.add('active');
+                    }
+                });
+            }
+            window.addEventListener('scroll', handleScroll);
 
-            for (let i = 0; i < 100; i++) {
-                particles.push(new Particle(x, y, true));
+            // --- INTERACTIVE REVEAL ---
+            const btnReveal = document.getElementById('btn-reveal');
+            const revealMask = document.getElementById('reveal-mask');
+            const revealText = document.getElementById('reveal-text');
+            
+            btnReveal.addEventListener('click', () => {
+                btnReveal.style.opacity = '0';
+                btnReveal.style.pointerEvents = 'none';
+                revealMask.classList.add('expand');
+                setTimeout(() => {
+                    revealText.classList.add('show');
+                }, 800);
+            });
+
+            // --- CARD 3D TILT & INTERACTION ---
+            const card = document.getElementById('invite-card');
+            
+            if(!isMobile) {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    
+                    const rotateX = ((y - centerY) / centerY) * -8; // max 8 deg
+                    const rotateY = ((x - centerX) / centerX) * 8;
+                    
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+                });
             }
 
-            // Show Modal after small delay
-            setTimeout(() => {
-                document.getElementById('modal').classList.add('active');
-            }, 600);
-        }
+            card.addEventListener('click', (e) => {
+                const burst = document.getElementById('card-burst');
+                burst.style.animation = 'none';
+                void burst.offsetWidth; // trigger reflow
+                burst.style.animation = 'burst 0.8s ease-out forwards';
+            });
 
-        function closeModal() {
-            document.getElementById('modal').classList.remove('active');
-        }
+            // --- FINAL SCENE SEQUENCING ---
+            const finalScene = document.getElementById('final-scene');
+            const finalTexts = [
+                document.getElementById('f-1'),
+                document.getElementById('f-2'),
+                document.getElementById('f-3'),
+                document.getElementById('f-4'),
+                document.getElementById('f-5'),
+                document.getElementById('f-6')
+            ];
+            
+            let finalTriggered = false;
+            
+            const finalObserver = new IntersectionObserver((entries) => {
+                if(entries[0].isIntersecting && !finalTriggered) {
+                    finalTriggered = true;
+                    // Darken background elements smoothly
+                    document.getElementById('skyline-back').style.opacity = '0.1';
+                    document.getElementById('skyline-mid').style.opacity = '0.1';
+                    document.getElementById('skyline-front').style.opacity = '0.1';
+                    
+                    playFinalSequence();
+                }
+            }, { threshold: 0.5 });
+            
+            finalObserver.observe(finalScene);
 
-        // Close modal on outside click
-        document.getElementById('modal').addEventListener('click', function(e) {
-            if(e.target === this) closeModal();
+            function playFinalSequence() {
+                let delay = 500;
+                
+                finalTexts.forEach((el, index) => {
+                    setTimeout(() => {
+                        // hide previous unless it's the last few elements that should stack
+                        if(index > 0 && index < 4) {
+                            finalTexts[index-1].classList.remove('show');
+                            finalTexts[index-1].classList.add('hide');
+                        } else if (index === 5) {
+                             finalTexts[index-1].classList.remove('show');
+                             finalTexts[index-1].classList.add('hide');
+                        }
+                        
+                        el.classList.remove('hide');
+                        el.classList.add('show');
+                    }, delay);
+                    
+                    // Specific timing based on prompt
+                    if(index === 0) delay += 3000; // "HIYA" pause
+                    else if (index === 1) delay += 2500; // "One evening" pause
+                    else if (index === 2) delay += 2500; // "One place" pause
+                    else if (index === 3) delay += 4000; // "One beautiful memory..." pause
+                    else if (index === 4) delay += 4000; // Location/Date pause
+                });
+            }
+
         });
-
     </script>
 </body>
 </html>

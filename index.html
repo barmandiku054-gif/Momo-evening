@@ -3,564 +3,1106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>A Little Momo Evening for Hiya ♡</title>
-    
-    <!-- Premium Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-
+    <title>An Evening For Hiya ✨</title>
     <style>
-        /* --- CSS VARIABLES & RESET --- */
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Montserrat:wght@200;300;400;500&family=Great+Vibes&display=swap');
+
         :root {
-            --bg-dark: #050505;
-            --gold: #d4af37;
-            --gold-light: #fbe699;
-            --text-main: #fcfcfc;
-            --text-muted: #b3b3b3;
-            --accent-red: #8a1c1c;
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(212, 175, 55, 0.15);
+            --bg-color: #050508;
+            --gold: #D4AF37;
+            --gold-light: #F9E596;
+            --gold-dark: #aa8a29;
+            --text-main: #fdfdfd;
+            --text-muted: rgba(255, 255, 255, 0.7);
+            --glass-bg: rgba(25, 25, 30, 0.4);
+            --glass-border: rgba(212, 175, 55, 0.2);
+            --glow-pink: rgba(255, 182, 193, 0.15);
+            --glow-purple: rgba(147, 112, 219, 0.15);
+            
+            --font-serif: 'Cinzel', serif;
+            --font-sans: 'Montserrat', sans-serif;
+            --font-script: 'Great Vibes', cursive;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
+            cursor: none; /* Custom cursor */
         }
 
-        body, html {
-            width: 100%;
-            height: 100%;
-            background-color: var(--bg-dark);
-            font-family: 'Lato', sans-serif;
+        html {
+            scroll-behavior: smooth;
+            background-color: var(--bg-color);
+        }
+
+        body {
+            font-family: var(--font-sans);
             color: var(--text-main);
-            overflow: hidden; /* Prevent scrolling during animation */
+            background: var(--bg-color);
+            overflow-x: hidden;
+            width: 100vw;
         }
 
-        /* --- BACKGROUND & CINEMATIC LIGHTING --- */
-        .background-container {
+        /* Custom Cursor */
+        .cursor-dot, .cursor-outline {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
+            top: 0; left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
             pointer-events: none;
-            background: radial-gradient(circle at 50% 50%, #15120a 0%, var(--bg-dark) 100%);
-            opacity: 0;
-            transition: opacity 3s ease-in-out;
         }
-
-        .bokeh {
-            position: absolute;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, rgba(0,0,0,0) 70%);
-            filter: blur(20px);
-            animation: float-bokeh 20s infinite alternate ease-in-out;
-        }
-        .bokeh-1 { top: 10%; left: 20%; width: 300px; height: 300px; }
-        .bokeh-2 { bottom: 10%; right: 10%; width: 400px; height: 400px; animation-delay: -5s; }
-
-        @keyframes float-bokeh {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(30px, -50px) scale(1.1); }
-        }
-
-        /* --- INTRO ANIMATION SEQUENCE --- */
-        #intro-screen {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-color: var(--bg-dark);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 100;
-            transition: opacity 2s ease-in-out;
-        }
-
-        .golden-light {
-            width: 2px;
-            height: 2px;
+        
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
             background-color: var(--gold-light);
-            border-radius: 50%;
-            box-shadow: 0 0 20px 10px rgba(212, 175, 55, 0.0);
-            opacity: 0;
+            box-shadow: 0 0 10px var(--gold);
         }
 
-        .intro-text {
-            position: absolute;
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(1.2rem, 4vw, 2rem);
-            color: var(--gold-light);
-            text-align: center;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: opacity 1.5s ease, transform 1.5s ease;
-            padding: 0 20px;
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--gold);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+        
+        .cursor-outline.hover {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(212, 175, 55, 0.1);
+            border-color: var(--gold-light);
         }
 
-        .intro-text.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* --- MAIN INVITATION --- */
-        #main-screen {
-            position: relative;
-            z-index: 10;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 2s ease-in-out;
-            overflow-y: auto; /* Allow scrolling on very small heights */
-        }
-
-        .glass-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 40px 30px;
-            width: 90%;
-            max-width: 420px;
-            text-align: center;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255,255,255,0.05);
-            transform: translateY(30px);
-            transition: transform 1.5s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 1.5s ease;
-        }
-
-        #main-screen.visible .glass-card {
-            transform: translateY(0);
-        }
-
-        /* --- MOMO VISUAL (SVG) --- */
-        .momo-container {
-            margin: 0 auto 20px auto;
-            width: 120px;
-            height: 100px;
-            position: relative;
-        }
-
-        .steam {
-            stroke: rgba(255, 255, 255, 0.3);
-            stroke-width: 1.5;
-            fill: none;
-            stroke-linecap: round;
-            opacity: 0;
-            animation: rise 3s infinite ease-in;
-        }
-        .steam-1 { animation-delay: 0.2s; }
-        .steam-2 { animation-delay: 1.2s; }
-        .steam-3 { animation-delay: 2.2s; }
-
-        @keyframes rise {
-            0% { transform: translateY(10px) translateX(0) scale(0.8); opacity: 0; }
-            50% { opacity: 1; }
-            100% { transform: translateY(-30px) translateX(10px) scale(1.2); opacity: 0; }
-        }
-
-        /* --- TYPOGRAPHY --- */
-        h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2rem, 8vw, 2.8rem);
-            color: var(--text-main);
-            letter-spacing: 4px;
-            margin-bottom: 5px;
+        /* Typography */
+        h1, h2, h3, h4, h5 {
+            font-family: var(--font-serif);
             font-weight: 400;
         }
 
-        .subtitle {
-            font-size: 0.85rem;
-            letter-spacing: 6px;
-            color: var(--gold);
-            text-transform: uppercase;
-            margin-bottom: 30px;
+        .text-gold {
+            background: linear-gradient(to right, var(--gold-light), var(--gold), #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
         }
 
-        .quote {
-            font-style: italic;
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(1rem, 3.5vw, 1.1rem);
-            color: var(--text-muted);
-            line-height: 1.6;
-            margin-bottom: 30px;
+        .script-font {
+            font-family: var(--font-script);
+            font-size: clamp(3rem, 8vw, 6rem);
+            color: var(--gold-light);
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
         }
 
-        .location {
-            font-size: 0.95rem;
-            color: var(--text-main);
-            margin-bottom: 40px;
+        /* Loading Screen */
+        #loading {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100vh;
+            background: var(--bg-color);
             display: flex;
-            align-items: center;
+            flex-direction: column;
             justify-content: center;
-            gap: 8px;
-        }
-        
-        .location svg {
-            fill: var(--gold);
-            width: 16px;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 1.5s ease-in-out;
         }
 
-        /* --- BUTTON --- */
-        .luxury-btn {
-            background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(212, 175, 55, 0.05));
+        .loader-ring {
+            width: 80px; height: 80px;
+            border: 2px solid transparent;
+            border-top: 2px solid var(--gold);
+            border-right: 2px solid var(--gold-light);
+            border-radius: 50%;
+            animation: spin 2s linear infinite;
+            margin-bottom: 30px;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+        }
+
+        .loading-text {
+            font-family: var(--font-serif);
+            letter-spacing: 4px;
+            font-size: 1.1rem;
+            color: var(--gold-light);
+            animation: pulseText 2s ease-in-out infinite;
+        }
+
+        /* Intro Screen */
+        #intro-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100vh;
+            background: radial-gradient(circle at center, #11111a 0%, #050508 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 900;
+            transition: transform 2s cubic-bezier(0.7, 0, 0.3, 1), opacity 2s ease;
+        }
+
+        .intro-title {
+            font-size: clamp(2rem, 5vw, 4rem);
+            letter-spacing: 8px;
+            text-align: center;
+            margin-bottom: 10px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 1.5s forwards 0.5s;
+        }
+
+        .intro-subtitle {
+            font-size: clamp(1rem, 2vw, 1.5rem);
+            letter-spacing: 12px;
+            color: var(--gold);
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 1.5s forwards 1s;
+        }
+
+        .intro-location {
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            letter-spacing: 5px;
+            color: var(--text-muted);
+            margin-bottom: 50px;
+            text-transform: uppercase;
+            opacity: 0;
+            animation: fadeUp 1.5s forwards 1.5s;
+        }
+
+        .glow-line {
+            width: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            margin: 20px 0;
+            box-shadow: 0 0 10px var(--gold);
+            animation: expandLine 1.5s forwards 1.2s;
+        }
+
+        .enter-btn {
+            padding: 15px 40px;
+            background: transparent;
             border: 1px solid var(--gold);
             color: var(--gold-light);
-            font-family: 'Lato', sans-serif;
+            font-family: var(--font-serif);
             font-size: 1rem;
-            letter-spacing: 1px;
-            padding: 15px 30px;
+            letter-spacing: 3px;
             border-radius: 30px;
-            cursor: pointer;
-            transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
-            outline: none;
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.1);
-        }
-
-        .luxury-btn:hover, .luxury-btn:active {
-            background: var(--gold);
-            color: var(--bg-dark);
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.4);
-            transform: scale(1.02);
-        }
-
-        .btn-text { position: relative; z-index: 2; }
-
-        /* --- SUCCESS MESSAGE --- */
-        #success-message {
-            display: none;
+            transition: all 0.5s ease;
             opacity: 0;
-            transition: opacity 1s ease;
-            margin-top: 20px;
+            animation: fadeUp 1.5s forwards 2s;
+            cursor: pointer;
+        }
+
+        .enter-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), transparent);
+            transition: all 0.5s ease;
+        }
+
+        .enter-btn:hover::before {
+            left: 100%;
+            transition: 1s;
+        }
+
+        .enter-btn:hover {
+            background: rgba(212, 175, 55, 0.1);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.4);
+            transform: scale(1.05);
+        }
+
+        /* Main Content Container */
+        #main-content {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 2s ease;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Canvas Background */
+        #particle-canvas {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        /* City Atmosphere Background */
+        #city-background {
+            position: fixed;
+            bottom: 0; left: 0; width: 100%; height: 40vh;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.6;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+        }
+
+        .building {
+            position: absolute;
+            bottom: 0;
+            background: #020204;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-right: 1px solid rgba(255,255,255,0.02);
+            box-shadow: inset 0 0 20px rgba(0,0,0,1);
+        }
+
+        .window {
+            position: absolute;
+            background: rgba(255, 220, 150, 0.8);
+            box-shadow: 0 0 10px rgba(255, 200, 100, 0.5);
+            border-radius: 1px;
+            transition: opacity 2s ease;
+        }
+
+        .ambient-glow {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80vw; height: 80vh;
+            background: radial-gradient(circle, var(--glow-pink) 0%, var(--glow-purple) 30%, transparent 70%);
+            z-index: -3;
+            filter: blur(60px);
+            opacity: 0.5;
+            animation: pulseGlow 10s infinite alternate;
+            pointer-events: none;
+        }
+
+        /* Glassmorphism Cards */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 0 20px rgba(255,255,255,0.02);
+            position: relative;
+            overflow: hidden;
+            transform: translateY(30px);
+            opacity: 0;
+            transition: all 1s cubic-bezier(0.25, 1, 0.5, 1);
         }
         
-        #success-message.show {
-            display: block;
-            opacity: 1;
+        .glass-card::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.05), transparent);
+            transform: skewX(-20deg);
+            animation: shine 8s infinite;
         }
 
-        #success-message p {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.2rem;
-            color: var(--gold-light);
-            line-height: 1.5;
+        .visible {
+            transform: translateY(0) scale(1) !important;
+            opacity: 1 !important;
+            filter: blur(0) !important;
         }
 
-        /* --- MUSIC CONTROLS --- */
-        .music-control {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 50;
-            background: rgba(0,0,0,0.5);
-            border: 1px solid var(--glass-border);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
+        /* Section Layouts */
+        section {
+            min-height: 100vh;
             display: flex;
-            align-items: center;
+            flex-direction: column;
             justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding-top: 10vh;
+        }
+
+        .hero h1 {
+            font-size: clamp(4rem, 15vw, 10rem);
+            line-height: 1;
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 20px; height: 20px;
+            background: radial-gradient(circle, #fff, transparent);
+            border-radius: 50%;
+            box-shadow: 0 0 10px #fff, 0 0 20px var(--gold);
+            animation: twinkle 1.5s infinite alternate;
+        }
+        .sp-1 { top: -10px; right: -20px; animation-delay: 0s; }
+        .sp-2 { bottom: 10px; left: -20px; animation-delay: 0.5s; width: 10px; height: 10px; }
+        .sp-3 { top: 40%; right: 40%; animation-delay: 1s; width: 15px; height: 15px;}
+
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            font-family: var(--font-serif);
+            color: var(--text-muted);
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            transform: translateY(20px);
+            opacity: 0;
+        }
+
+        .hero-location {
+            font-size: clamp(0.9rem, 2vw, 1.2rem);
+            letter-spacing: 8px;
+            color: var(--gold);
+            text-transform: uppercase;
+            transform: translateY(20px);
+            opacity: 0;
+        }
+
+        /* Invitation Section */
+        .invitation .glass-card {
+            max-width: 700px;
+            text-align: center;
+            filter: blur(10px);
+            transform: scale(0.9);
+        }
+
+        .invitation p {
+            font-size: clamp(1.1rem, 2vw, 1.5rem);
+            line-height: 1.8;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+
+        /* Timeline Section */
+        .timeline-container {
+            width: 100%;
+            max-width: 600px;
+            position: relative;
+            margin: 50px 0;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 20px;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, var(--gold), var(--gold-light), transparent);
+            box-shadow: 0 0 15px var(--gold);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 60px;
+            margin-bottom: 60px;
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: all 1s ease;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 14px;
+            top: 5px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--bg-color);
+            border: 2px solid var(--gold-light);
+            box-shadow: 0 0 15px var(--gold);
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item:hover .timeline-dot {
+            background: var(--gold-light);
+            transform: scale(1.3);
+        }
+
+        .timeline-time {
+            font-family: var(--font-serif);
+            color: var(--gold);
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+        }
+
+        .timeline-content {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            font-weight: 300;
+        }
+
+        /* Interactive Moment */
+        .interactive-moment {
+            text-align: center;
+        }
+
+        .reveal-text {
+            font-size: clamp(1.5rem, 4vw, 3rem);
+            line-height: 1.5;
+            margin-bottom: 30px;
+            font-family: var(--font-serif);
+        }
+        
+        .line-1, .line-2, .line-3 {
+            display: block;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1s ease;
+        }
+        .visible .line-1 { transition-delay: 0.2s; }
+        .visible .line-2 { transition-delay: 1.2s; }
+        .visible .line-3 { transition-delay: 2.2s; color: var(--gold-light); }
+
+        /* Magical Button Section */
+        .magic-btn {
+            padding: 20px 50px;
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid var(--gold);
+            border-radius: 50px;
+            color: var(--gold-light);
+            font-family: var(--font-serif);
+            font-size: clamp(1rem, 2vw, 1.5rem);
+            letter-spacing: 3px;
             cursor: pointer;
             backdrop-filter: blur(5px);
-            transition: all 0.3s ease;
-            opacity: 0; /* Hidden during intro */
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
         }
 
-        .music-control svg {
-            width: 18px;
-            fill: var(--text-muted);
-            transition: fill 0.3s ease;
+        .magic-btn:hover {
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 10px 40px rgba(212, 175, 55, 0.5);
+            background: rgba(212, 175, 55, 0.2);
         }
 
-        .music-control.playing svg {
-            fill: var(--gold);
+        /* Modal */
+        #modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100vh;
+            background: rgba(5, 5, 8, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s ease;
+        }
+
+        #modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: linear-gradient(145deg, rgba(30,30,35,0.8), rgba(15,15,20,0.9));
+            border: 1px solid var(--gold);
+            padding: 60px 40px;
+            border-radius: 30px;
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+            transform: scale(0.8) translateY(50px);
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8), inset 0 0 30px rgba(212, 175, 55, 0.2);
+        }
+
+        #modal.active .modal-content {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px; right: 25px;
+            font-size: 2rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .modal-close:hover { color: var(--gold); }
+
+        /* Finale Section */
+        .finale {
+            text-align: center;
+            padding: 20vh 20px;
         }
         
-        .music-control:hover svg {
-            fill: var(--text-main);
+        .finale h2 {
+            font-size: clamp(3rem, 10vw, 8rem);
+            margin-bottom: 20px;
         }
 
-        /* --- INTERACTIVE PARTICLES --- */
-        .particle {
+        .moon {
+            position: absolute;
+            top: 10%; right: 10%;
+            width: clamp(100px, 20vw, 200px);
+            height: clamp(100px, 20vw, 200px);
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #fff, #f9e596, #d4af37, transparent);
+            box-shadow: 0 0 100px rgba(249, 229, 150, 0.4), inset -20px -20px 40px rgba(0,0,0,0.5);
+            z-index: -1;
+            opacity: 0.8;
+            animation: float 10s ease-in-out infinite;
+        }
+
+        /* Music Player */
+        .floating-music-btn {
             position: fixed;
-            pointer-events: none;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: center;
+            align-items: center;
             z-index: 100;
-            animation: float-up 2s ease-out forwards;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            transition: all 0.3s ease;
         }
 
-        @keyframes float-up {
-            0% { transform: translateY(0) scale(0.5) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(-150px) scale(1.5) rotate(45deg); opacity: 0; }
+        .floating-music-btn:hover {
+            transform: scale(1.1);
+            border-color: var(--gold);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.4);
         }
 
-        /* --- RESPONSIVE ADJUSTMENTS --- */
-        @media (max-width: 375px) {
+        .equalizer {
+            display: flex;
+            align-items: flex-end;
+            height: 20px;
+            gap: 3px;
+        }
+
+        .bar {
+            width: 4px;
+            background: var(--gold-light);
+            border-radius: 2px;
+            transition: height 0.1s ease;
+        }
+
+        .bar:nth-child(1) { height: 10px; }
+        .bar:nth-child(2) { height: 20px; }
+        .bar:nth-child(3) { height: 15px; }
+        .bar:nth-child(4) { height: 8px; }
+
+        .playing .bar {
+            animation: eqPlay 1s infinite alternate ease-in-out;
+        }
+        .playing .bar:nth-child(1) { animation-delay: 0.1s; }
+        .playing .bar:nth-child(2) { animation-delay: 0.3s; }
+        .playing .bar:nth-child(3) { animation-delay: 0.0s; }
+        .playing .bar:nth-child(4) { animation-delay: 0.2s; }
+
+        .music-label {
+            position: absolute;
+            right: 75px;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            color: var(--gold);
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            transform: translateX(10px);
+            white-space: nowrap;
+        }
+
+        .floating-music-btn:hover .music-label {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Keyframes */
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes pulseText { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; text-shadow: 0 0 10px var(--gold); } }
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+        @keyframes expandLine { to { width: 80%; max-width: 300px; } }
+        @keyframes twinkle { to { opacity: 0.3; transform: scale(0.5); } }
+        @keyframes pulseGlow { to { transform: translate(-50%, -50%) scale(1.2); opacity: 0.7; } }
+        @keyframes shine { 100% { left: 200%; } }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+        @keyframes eqPlay { 0% { height: 4px; } 100% { height: 20px; } }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .cursor-dot, .cursor-outline { display: none; }
+            * { cursor: auto; }
             .glass-card { padding: 30px 20px; }
-            .momo-container { width: 100px; height: 85px; }
-        }
-        @media (max-height: 700px) {
-            .glass-card { padding: 25px 20px; }
-            .quote { margin-bottom: 20px; }
-            .location { margin-bottom: 25px; }
+            .timeline-container { padding: 0 20px; }
+            .floating-music-btn { bottom: 20px; right: 20px; width: 50px; height: 50px; }
+            .music-label { display: none; }
         }
     </style>
 </head>
 <body>
 
+    <!-- Custom Cursor -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
     <!-- Background Audio -->
-    <!-- REPLACE 'music.mp3' WITH YOUR OWN FILE PATH/URL -->
+    <!-- Replace src with actual audio file, e.g., src="your-romantic-song.mp3" -->
     <audio id="bg-music" loop>
-        <source src="music.mp3" type="audio/mpeg">
+        <source src="data:audio/mp3;base64,//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq" type="audio/mp3">
     </audio>
 
-    <!-- Music Control Button -->
-    <div class="music-control" id="music-btn" title="Toggle Music">
-        <!-- Play Icon -->
-        <svg id="icon-play" viewBox="0 0 24 24">
-            <path d="M8 5v14l11-7z"/>
-        </svg>
-        <!-- Pause Icon (hidden initially) -->
-        <svg id="icon-pause" viewBox="0 0 24 24" style="display: none;">
-            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
-        </svg>
+    <!-- Loading Screen -->
+    <div id="loading">
+        <div class="loader-ring"></div>
+        <div class="loading-text">PREPARING YOUR EVENING</div>
     </div>
 
-    <!-- Cinematic Background -->
-    <div class="background-container" id="bg-container">
-        <div class="bokeh bokeh-1"></div>
-        <div class="bokeh bokeh-2"></div>
-    </div>
-
-    <!-- Intro Animation Screen -->
+    <!-- Intro Screen -->
     <div id="intro-screen">
-        <div class="golden-light" id="golden-light"></div>
-        <div class="intro-text" id="text-1">For someone a little special...</div>
-        <div class="intro-text" id="text-2">Hiya ♡</div>
-        <div class="intro-text" id="text-3">How about a little Momo Evening?</div>
+        <h1 class="intro-title text-gold">AN EVENING</h1>
+        <h2 class="intro-title text-gold" style="animation-delay: 0.7s;">FOR HIYA</h2>
+        <div class="glow-line"></div>
+        <div class="intro-location">City Centre • Guwahati</div>
+        <button class="enter-btn" onclick="startExperience()">ENTER THE EVENING ✨</button>
     </div>
 
-    <!-- Main Invitation Screen -->
-    <div id="main-screen">
-        <div class="glass-card">
-            
-            <!-- Elegant Momo SVG Illustration -->
-            <div class="momo-container">
-                <svg viewBox="0 0 100 80" width="100%" height="100%">
-                    <!-- Steam -->
-                    <path class="steam steam-1" d="M40,30 Q30,10 45,0" />
-                    <path class="steam steam-2" d="M50,30 Q65,15 50,-5" />
-                    <path class="steam steam-3" d="M60,35 Q70,20 60,5" />
-                    
-                    <!-- Glow under plate -->
-                    <ellipse cx="50" cy="70" rx="35" ry="5" fill="rgba(212, 175, 55, 0.15)" filter="blur(3px)" />
-                    
-                    <!-- Plate -->
-                    <ellipse cx="50" cy="65" rx="45" ry="12" fill="#1a1a1a" stroke="#333" stroke-width="1"/>
-                    <ellipse cx="50" cy="65" rx="35" ry="8" fill="#111" />
-                    
-                    <!-- Momo Base -->
-                    <path d="M20,60 C20,25 80,25 80,60 Z" fill="url(#momo-grad)" />
-                    
-                    <!-- Momo Pleats/Folds -->
-                    <path d="M28,60 Q32,35 40,60" stroke="rgba(212, 175, 55, 0.4)" fill="none" stroke-width="1.5" />
-                    <path d="M40,60 Q45,30 50,60" stroke="rgba(212, 175, 55, 0.4)" fill="none" stroke-width="1.5" />
-                    <path d="M60,60 Q55,30 50,60" stroke="rgba(212, 175, 55, 0.4)" fill="none" stroke-width="1.5" />
-                    <path d="M72,60 Q68,35 60,60" stroke="rgba(212, 175, 55, 0.4)" fill="none" stroke-width="1.5" />
-                    
-                    <!-- Gradients -->
-                    <defs>
-                        <linearGradient id="momo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#fdf4d8" />
-                            <stop offset="100%" stop-color="#e8c779" />
-                        </linearGradient>
-                    </defs>
-                </svg>
-            </div>
+    <!-- Main Content -->
+    <div id="main-content">
+        
+        <canvas id="particle-canvas"></canvas>
+        <div id="city-background"></div>
+        <div class="ambient-glow"></div>
+        <div class="moon"></div>
 
-            <h1>HIYA ♡</h1>
-            <div class="subtitle">Momo Evening</div>
-            
-            <p class="quote">“Good food, warm conversations,<br>and a little time away from everything.”</p>
-            
-            <div class="location">
-                <svg viewBox="0 0 24 24">
-                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-                </svg>
-                City Centre, Guwahati
+        <!-- Music Button -->
+        <div class="floating-music-btn" onclick="toggleMusic()">
+            <div class="music-label">MUSIC</div>
+            <div class="equalizer" id="eq">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
             </div>
+        </div>
 
-            <button class="luxury-btn" id="action-btn">
-                <span class="btn-text">Let’s Have Momos ♡</span>
-            </button>
+        <!-- Hero Section -->
+        <section class="hero reveal-on-scroll">
+            <h1 class="text-gold parallax" data-speed="0.05">
+                Hiya
+                <div class="sparkle sp-1"></div>
+                <div class="sparkle sp-2"></div>
+                <div class="sparkle sp-3"></div>
+            </h1>
+            <p class="hero-subtitle parallax" data-speed="0.08" style="transition: all 1.5s ease 0.5s;">Tonight is a little different.</p>
+            <p class="hero-location parallax" data-speed="0.1" style="transition: all 1.5s ease 1s;">An Evening at City Centre<br><br>Guwahati</p>
+        </section>
 
-            <div id="success-message">
-                <p>Then it's a plan.<br>Momos + Evening + You = Perfect ♡</p>
+        <!-- Invitation Section -->
+        <section class="invitation reveal-on-scroll">
+            <div class="glass-card parallax" data-speed="-0.03">
+                <p><span class="script-font">Hiya,</span></p>
+                <br>
+                <p>You are warmly invited to a beautiful evening carefully created just for you.</p>
+                <p style="color: var(--gold); font-family: var(--font-serif); letter-spacing: 2px;">City Centre, Guwahati</p>
             </div>
+        </section>
+
+        <!-- Timeline Section -->
+        <section class="timeline reveal-on-scroll">
+            <div class="glass-card parallax" data-speed="0.02" style="width: 90%; max-width: 800px;">
+                <h3 class="text-gold" style="text-align: center; font-size: 2rem; margin-bottom: 40px; letter-spacing: 3px;">The Evening</h3>
+                <div class="timeline-container">
+                    <div class="timeline-line"></div>
+                    
+                    <div class="timeline-item reveal-on-scroll">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-time">06:00 PM</div>
+                        <div class="timeline-content">Let the evening begin ✨</div>
+                    </div>
+                    
+                    <div class="timeline-item reveal-on-scroll">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-time">07:00 PM</div>
+                        <div class="timeline-content">City lights & beautiful conversations</div>
+                    </div>
+                    
+                    <div class="timeline-item reveal-on-scroll">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-time">08:00 PM</div>
+                        <div class="timeline-content">Good food, better moments</div>
+                    </div>
+                    
+                    <div class="timeline-item reveal-on-scroll">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-time">09:00 PM</div>
+                        <div class="timeline-content">Making the evening memorable ❤️</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Moment -->
+        <section class="interactive-moment reveal-on-scroll">
+            <div class="reveal-text">
+                <span class="line-1">Some evenings are ordinary...</span>
+                <span class="line-2">...and some are meant to be remembered.</span>
+                <span class="line-3">Tonight is for Hiya. ❤️</span>
+            </div>
+        </section>
+
+        <!-- Magical Action -->
+        <section class="magical-action reveal-on-scroll">
+            <button class="magic-btn parallax" data-speed="0.05" onclick="makeMagical(event)">MAKE THIS EVENING SPECIAL ✨</button>
+        </section>
+
+        <!-- Memory Section -->
+        <section class="memory reveal-on-scroll">
+            <div class="glass-card parallax" data-speed="-0.04" style="text-align: center; max-width: 800px;">
+                <p style="font-family: var(--font-serif); font-size: clamp(1.2rem, 3vw, 2rem); color: var(--gold-light); margin-bottom: 20px;">Maybe this evening becomes a memory...</p>
+                <p style="font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 20px;">Maybe it becomes one of those moments we simply smile about later when looking back.</p>
+                <p style="font-size: 1.2rem; font-style: italic;">Either way, let’s enjoy it.</p>
+            </div>
+        </section>
+
+        <!-- Finale Section -->
+        <footer class="finale reveal-on-scroll">
+            <h2 class="text-gold parallax" data-speed="0.08">HIYA ✨</h2>
+            <p class="parallax" data-speed="0.04" style="font-size: clamp(1rem, 2.5vw, 1.5rem); letter-spacing: 5px; color: var(--text-muted); margin-bottom: 30px; text-transform: uppercase;">See you at City Centre, Guwahati.</p>
+            <p class="script-font parallax" data-speed="0.02" style="font-size: clamp(2rem, 5vw, 4rem);">Let the evening begin...</p>
+            
+            <div style="margin-top: 100px; font-size: 0.8rem; color: rgba(255,255,255,0.3); letter-spacing: 2px;">
+                Made for a beautiful evening with Hiya ❤️
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Modal -->
+    <div id="modal">
+        <div class="modal-content">
+            <div class="modal-close" onclick="closeModal()">&times;</div>
+            <h3 class="script-font" style="margin-bottom: 20px; font-size: 4rem;">Hiya,</h3>
+            <p style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--gold-light); line-height: 1.6;">
+                let’s make tonight a memory worth keeping. ✨
+            </p>
         </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Elements
-            const introScreen = document.getElementById('intro-screen');
-            const goldenLight = document.getElementById('golden-light');
-            const texts = [
-                document.getElementById('text-1'),
-                document.getElementById('text-2'),
-                document.getElementById('text-3')
-            ];
-            const mainScreen = document.getElementById('main-screen');
-            const bgContainer = document.getElementById('bg-container');
-            const musicBtn = document.getElementById('music-btn');
-            const actionBtn = document.getElementById('action-btn');
-            const successMsg = document.getElementById('success-message');
-            const audio = document.getElementById('bg-music');
-            const iconPlay = document.getElementById('icon-play');
-            const iconPause = document.getElementById('icon-pause');
-
-            // --- INTRO SEQUENCE ---
-            // Step 1: Expand golden light
+        // --- Globals & Utils ---
+        const isMobile = window.innerWidth < 768;
+        
+        // --- Loading & Intro Logic ---
+        window.addEventListener('load', () => {
             setTimeout(() => {
-                goldenLight.style.transition = 'all 2s ease-out';
-                goldenLight.style.boxShadow = '0 0 50px 30px rgba(212, 175, 55, 0.4)';
-                goldenLight.style.transform = 'scale(5)';
-                goldenLight.style.opacity = '1';
-            }, 500);
-
-            // Step 2: Show texts sequentially
-            let delay = 2500;
-            texts.forEach((text, index) => {
+                document.getElementById('loading').style.opacity = '0';
                 setTimeout(() => {
-                    // Hide golden light when first text appears
-                    if(index === 0) { goldenLight.style.opacity = '0'; }
-                    
-                    text.classList.add('active');
-                }, delay);
-                
-                delay += 3000; // time text stays on screen
-                
-                setTimeout(() => {
-                    text.classList.remove('active');
-                }, delay - 500); // fade out before next
-            });
+                    document.getElementById('loading').style.display = 'none';
+                }, 1500);
+            }, 2000);
+        });
 
-            // Step 3: Transition to Main Scene
-            setTimeout(() => {
-                introScreen.style.opacity = '0';
-                setTimeout(() => {
-                    introScreen.style.display = 'none';
-                    bgContainer.style.opacity = '1';
-                    mainScreen.style.visibility = 'visible';
-                    mainScreen.style.opacity = '1';
-                    mainScreen.classList.add('visible');
-                    musicBtn.style.opacity = '1';
-                }, 2000); // Wait for fade out
-            }, delay + 500);
-
-
-            // --- MUSIC CONTROLS ---
-            let isPlaying = false;
+        function startExperience() {
+            const intro = document.getElementById('intro-screen');
+            const main = document.getElementById('main-content');
             
-            function toggleMusic() {
-                if (isPlaying) {
-                    audio.pause();
-                    iconPlay.style.display = 'block';
-                    iconPause.style.display = 'none';
-                    musicBtn.classList.remove('playing');
-                } else {
-                    // Modern browsers require error handling for autoplay
-                    let playPromise = audio.play();
-                    if (playPromise !== undefined) {
-                        playPromise.then(_ => {
-                            iconPlay.style.display = 'none';
-                            iconPause.style.display = 'block';
-                            musicBtn.classList.add('playing');
-                        }).catch(error => {
-                            console.log("Audio play prevented by browser");
-                        });
-                    }
-                }
-                isPlaying = !isPlaying;
-            }
+            // Audio Play attempt
+            const audio = document.getElementById('bg-music');
+            audio.volume = 0.5;
+            audio.play().then(() => {
+                document.getElementById('eq').classList.add('playing');
+            }).catch(e => console.log("Audio autoplay blocked", e));
 
-            musicBtn.addEventListener('click', toggleMusic);
-
-            // Optional: Start music gently on first tap anywhere if not played yet
-            document.body.addEventListener('click', () => {
-                if(!isPlaying && audio.paused) {
-                    toggleMusic();
-                }
-            }, { once: true });
-
-
-            // --- BUTTON INTERACTION & PARTICLES ---
-            actionBtn.addEventListener('click', (e) => {
-                // Hide button smoothly
-                actionBtn.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-                actionBtn.style.opacity = '0';
-                actionBtn.style.transform = 'scale(0.8)';
+            intro.style.transform = 'scale(1.5)';
+            intro.style.opacity = '0';
+            
+            setTimeout(() => {
+                intro.style.display = 'none';
+                main.style.visibility = 'visible';
+                main.style.opacity = '1';
                 
+                // Trigger initial scroll reveals
                 setTimeout(() => {
-                    actionBtn.style.display = 'none';
-                    // Show success message
-                    successMsg.classList.add('show');
+                    document.querySelectorAll('.hero-subtitle, .hero-location').forEach(el => {
+                        el.style.opacity = '1';
+                        el.style.transform = 'translateY(0)';
+                    });
                 }, 500);
 
-                // Generate Heart & Sparkle Particles
-                createParticles(e.clientX, e.clientY);
+            }, 1500);
+            
+            initCityscape();
+            initParticles();
+        }
+
+        // --- Audio Control ---
+        function toggleMusic() {
+            const audio = document.getElementById('bg-music');
+            const eq = document.getElementById('eq');
+            if (audio.paused) {
+                audio.play();
+                eq.classList.add('playing');
+            } else {
+                audio.pause();
+                eq.classList.remove('playing');
+            }
+        }
+
+        // --- Custom Cursor & Hover Effects (Desktop Only) ---
+        if (!isMobile) {
+            const cursorDot = document.querySelector('.cursor-dot');
+            const cursorOutline = document.querySelector('.cursor-outline');
+
+            window.addEventListener('mousemove', (e) => {
+                const posX = e.clientX;
+                const posY = e.clientY;
+
+                cursorDot.style.left = `${posX}px`;
+                cursorDot.style.top = `${posY}px`;
+
+                // Slight delay on outline
+                cursorOutline.animate({
+                    left: `${posX}px`,
+                    top: `${posY}px`
+                }, { duration: 500, fill: "forwards" });
             });
 
-            function createParticles(x, y) {
-                const emojis = ['🤍', '✨', '🥟', '💛'];
-                const particleCount = 20;
+            // Add hover state to interactive elements
+            const interactives = document.querySelectorAll('button, .floating-music-btn, .modal-close');
+            interactives.forEach(el => {
+                el.addEventListener('mouseenter', () => cursorOutline.classList.add('hover'));
+                el.addEventListener('mouseleave', () => cursorOutline.classList.remove('hover'));
+            });
+            
+            // Parallax effect on mouse move
+            document.addEventListener('mousemove', (e) => {
+                const x = (window.innerWidth - e.pageX * 2) / 100;
+                const y = (window.innerHeight - e.pageY * 2) / 100;
 
-                for (let i = 0; i < particleCount; i++) {
-                    const particle = document.createElement('div');
-                    particle.classList.add('particle');
-                    // Randomly select emoji
-                    particle.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-                    
-                    // Position at center of button/click
-                    particle.style.left = x + 'px';
-                    particle.style.top = y + 'px';
-                    
-                    // Randomize movement
-                    const spreadX = (Math.random() - 0.5) * 200; // Spread width
-                    particle.style.setProperty('--tx', `${spreadX}px`);
-                    
-                    // Add slight variance to animation duration
-                    const duration = 1.5 + Math.random() * 1.5;
-                    particle.style.animation = `float-up ${duration}s ease-out forwards`;
-                    
-                    // Custom keyframe specific to this particle's X spread
-                    particle.animate([
-                        { transform: `translate(0, 0) scale(0.5) rotate(0deg)`, opacity: 1 },
-                        { transform: `translate(${spreadX}px, -150px) scale(1.5) rotate(${Math.random() * 90}deg)`, opacity: 0 }
-                    ], {
-                        duration: duration * 1000,
-                        easing: 'ease-out',
-                        fill: 'forwards'
-                    });
+                document.querySelectorAll('.parallax').forEach(elem => {
+                    const speed = elem.getAttribute('data-speed');
+                    const xOffset = x * speed * 100;
+                    const yOffset = y * speed * 100;
+                    elem.style.transform = `translateX(${xOffset}px) translateY(${yOffset}px)`;
+                });
+            });
+        }
 
-                    document.body.appendChild(particle);
+        // --- Scroll Reveal with Intersection Observer ---
+        const revealOptions = { threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
+        const revealObserver = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    // Special case for hero subtitle/location if they re-enter
+                    if(entry.target.classList.contains('hero')) {
+                         entry.target.querySelectorAll('.hero-subtitle, .hero-location').forEach(el => {
+                            el.style.opacity = '1';
+                            el.style.transform = 'translateY(0)';
+                         });
+                    }
+                }
+            });
+        }, revealOptions);
 
-                    // Cleanup DOM
-                    setTimeout(() => {
-                        particle.remove();
-                    }, duration * 1000);
+        document.querySelectorAll('.reveal-on-scroll, .timeline-item').forEach(el => {
+            revealObserver.observe(el);
+        });
+
+        // --- Dynamic Cityscape Generation ---
+        function initCityscape() {
+            const container = document.getElementById('city-background');
+            const width = window.innerWidth;
+            const buildingCount = isMobile ? 15 : 40;
+            let currentX = 0;
+
+            for (let i = 0; i < buildingCount; i++) {
+                if (currentX > width) break;
+
+                const bWidth = Math.random() * 60 + 30; // 30px to 90px
+                const bHeight = Math.random() * 30 + 10; // 10vh to 40vh
+                
+                const building = document.createElement('div');
+                building.className = 'building';
+                building.style.width = `${bWidth}px`;
+                building.style.height = `${bHeight}vh`;
+                building.style.left = `${currentX}px`;
+
+                // Add windows
+                const rows = Math.floor(bHeight / 4);
+                const cols = Math.floor(bWidth / 15);
+
+                for (let r = 0; r < rows; r++) {
+                    for (let c = 0; c < cols; c++) {
+                        if (Math.random() > 0.6) { // 40% chance of light on
+                            const win = document.createElement('div');
+                            win.className = 'window';
+                            win.style.width = '4px';
+                            win.style.height = '6px';
+                            win.style.bottom = `${r * 12 + 5}px`;
+                            win.style.left = `${c * 12 + 5}px`;
+                            
+                            // Random twinkling
+                            win.style.animation = `pulseText ${Math.random()*3+2}s infinite alternate`;
+                            building.appendChild(win);
+                        }
+                    }
+                }
+
+                container.appendChild(building);
+                currentX += bWidth + (Math.random() * 5); // small gap
+            }
+        }
+
+        // --- Particle System (Canvas) ---
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let canvasWidth, canvasHeight;
+
+        function resizeCanvas() {
+            canvasWidth = window.innerWidth;
+            canvasHeight = window.innerHeight;
+            canvas.width = canvasWidth;
+            canvas.height = canvasHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor(x, y, isBurst = false) {
+                this.x = x || Math.random() * canvasWidth;
+                this.y = y || Math.random() * canvasHeight;
+                this.size = Math.random() * 2 + 0.5;
+                
+                if (isBurst) {
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = Math.random() * 10 + 2;
+                    this.vx = Math.cos(angle) * speed;
+                    this.vy = Math.sin(angle) * speed;
+                    this.life = 1.0;
+                    this.decay = Math.random() * 0.02 + 0.01;
+                    this.color = Math.random() > 0.5 ? '#D4AF37' : '#F9E596';
+                    this.size = Math.random() * 4 + 1;
+                } else {
+                    this.vx = (Math.random() - 0.5) * 0.5;
+                    this.vy = (Math.random() - 0.5) * 0.5 - 0.2; // slight upward drift
+                    this.life = Math.random();
+                    this.decay = 0;
+                    
+                    const rand = Math.random();
+                    if (rand < 0.6) this.color = 'rgba(212, 175, 55,'; // Gold
+                    else if (rand < 0.9) this.color = 'rgba(255, 255, 255,'; // White/Star
+                    else this.color = 'rgba(255, 182, 193,'; // Pinkish bokeh
+                }
+                this.isBurst = isBurst;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.isBurst) {
+                    this.life -= this.decay;
+                    this.vy += 0.1; // gravity
+                } else {
+                    // Wrap around
+                    if (this.x < 0) this.x = canvasWidth;
+                    if (this.x > canvasWidth) this.x = 0;
+                    if (this.y < 0) this.y = canvasHeight;
+                    if (this.y > canvasHeight) this.y = 0;
+                    
+                    // Twinkle
+                    this.life += 0.02;
                 }
             }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                
+                if (this.isBurst) {
+                    ctx.fillStyle = this.color;
+                    ctx.globalAlpha = Math.max(0, this.life);
+                } else {
+                    const alpha = (Math.sin(this.life) * 0.5 + 0.5) * 0.8;
+                    ctx.fillStyle = this.color + alpha + ')';
+                    ctx.globalAlpha = 1;
+                    
+                    // Glow for larger particles
+                    if (this.size > 1.5) {
+                        ctx.shadowBlur = 10;
+                        ctx.shadowColor = this.color + '1)';
+                    } else {
+                        ctx.shadowBlur = 0;
+                    }
+                }
+                
+                ctx.fill();
+                ctx.globalAlpha = 1; // reset
+                ctx.shadowBlur = 0;
+            }
+        }
+
+        function initParticles() {
+            const count = isMobile ? 50 : 150;
+            for (let i = 0; i < count; i++) {
+                particles.push(new Particle());
+            }
+            animateParticles();
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+            
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const p = particles[i];
+                p.update();
+                p.draw();
+                
+                // Remove dead burst particles
+                if (p.isBurst && p.life <= 0) {
+                    particles.splice(i, 1);
+                }
+            }
+            
+            requestAnimationFrame(animateParticles);
+        }
+
+        // --- Interactivity (Magical Button & Modal) ---
+        function makeMagical(e) {
+            // Particle Burst
+            const rect = e.target.getBoundingClientRect();
+            const x = rect.left + rect.width / 2;
+            const y = rect.top + rect.height / 2;
+
+            for (let i = 0; i < 100; i++) {
+                particles.push(new Particle(x, y, true));
+            }
+
+            // Show Modal after small delay
+            setTimeout(() => {
+                document.getElementById('modal').classList.add('active');
+            }, 600);
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+        }
+
+        // Close modal on outside click
+        document.getElementById('modal').addEventListener('click', function(e) {
+            if(e.target === this) closeModal();
         });
+
     </script>
 </body>
 </html>
